@@ -56,6 +56,9 @@ class TaskAdapter(
             binding.textViewTaskTitle.text = task.title
             binding.textViewTaskDate.text = DateUtils.formatDate(task.dueDate)
             binding.textViewTaskTime.text = DateUtils.formatTime(task.dueDate)
+            // Quitar el listener antes de asignar el estado: en vistas recicladas el listener
+            // anterior apunta a otra tarea y se dispararía al cambiar isChecked.
+            binding.checkboxTaskCompleted.setOnCheckedChangeListener(null)
             binding.checkboxTaskCompleted.isChecked = task.isCompleted
 
             val category = categories[task.categoryId]
@@ -100,7 +103,6 @@ class TaskAdapter(
             }
 
             binding.root.setOnClickListener { listener.onItemClick(task) }
-            binding.checkboxTaskCompleted.setOnCheckedChangeListener(null)
             binding.checkboxTaskCompleted.setOnCheckedChangeListener { _, isChecked ->
                 listener.onTaskStatusChanged(task, isChecked)
             }

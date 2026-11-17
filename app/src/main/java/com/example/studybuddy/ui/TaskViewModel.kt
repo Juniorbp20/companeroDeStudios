@@ -71,7 +71,7 @@ class TaskViewModel(application: Application) : AndroidViewModel(application) {
     }.asLiveData()
 
     val completedPerDay: LiveData<List<DayCount>> = ticker.flatMapLatest { now ->
-        repository.completedPerDay(now - 7L * 24 * 60 * 60 * 1000)
+        repository.completedPerDay(DateUtils.lastNDayStarts(7, now).first())
     }.asLiveData()
 
     val filteredTasks: LiveData<List<Task>> =
@@ -137,6 +137,28 @@ class TaskViewModel(application: Application) : AndroidViewModel(application) {
             repository.delete(task)
         }
     }
+
+    /** Completa o reabre una tarea; si es recurrente y se completa, genera la siguiente ocurrencia. */
+    fun setCompleted(task: Task, completed: Boolean) {
+        viewModelScope.launch {
+            repository.setCompleted(task, completed)
+        }
+    }
+
+    /** Elimina la tarea (y su alarma) y entrega sus subtareas para poder deshacer. */
+    fun deleteWithUndo(task: Task, onDeleted: (List<SubTask>) -> Unit) {
+        viewModelScope.launch {
+            onDeleted(repository.deleteWithSubtasks(task))
+        }
+    }
+
+    fun restore(task: Task, subtasks: List<SubTask>) {
+        viewModelScope.launch {
+            repository.restore(task, subtasks)
+        }
+    }
+
+    suspend fun insertNow(task: Task): Long = repository.insert(task)
 
     fun insertSubTask(subTask: SubTask) {
         viewModelScope.launch {

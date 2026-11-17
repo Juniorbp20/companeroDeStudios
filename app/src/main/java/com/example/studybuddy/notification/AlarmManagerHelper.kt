@@ -49,17 +49,13 @@ class AlarmManagerHelper(private val context: Context) {
                     Log.d(TAG, "Alarma aproximada programada (sin permiso de alarmas exactas)")
                 }
 
-                Build.VERSION.SDK_INT >= Build.VERSION_CODES.M -> {
+                else -> {
                     alarmManager.setExactAndAllowWhileIdle(
                         AlarmManager.RTC_WAKEUP,
                         triggerAtMillis,
                         pendingIntent
                     )
                     Log.d(TAG, "Alarma exacta programada para: $triggerAtMillis")
-                }
-
-                else -> {
-                    alarmManager.setExact(AlarmManager.RTC_WAKEUP, triggerAtMillis, pendingIntent)
                 }
             }
         } catch (se: SecurityException) {

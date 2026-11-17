@@ -356,11 +356,7 @@ class DashboardSummaryFragment : Fragment(), UpcomingTaskAdapter.OnUpcomingTaskC
     }
 
     override fun onTaskCompleted(task: Task, isCompleted: Boolean) {
-        val updated = task.copy(
-            isCompleted = isCompleted,
-            completedAt = if (isCompleted) System.currentTimeMillis() else 0L
-        )
-        taskViewModel.update(updated)
+        taskViewModel.setCompleted(task, isCompleted)
     }
 
     override fun onDestroyView() {

@@ -22,8 +22,6 @@ object FocusSessionStore {
             .putInt(KEY_DAILY_PREFIX + today, prefs.getInt(KEY_DAILY_PREFIX + today, 0) + 1)
             .apply()
 
-        // Track in SyncManager for local offline synchronization
-        SyncManager.getInstance(context).enqueuePomodoroSession(context, getWorkMinutes(context))
     }
 
     fun totalSessions(context: Context): Int =

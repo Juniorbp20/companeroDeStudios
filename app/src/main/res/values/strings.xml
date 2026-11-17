@@ -83,20 +83,6 @@
     <string name="modern_menu_update_desc">Verificar si hay una versión más reciente</string>
     <string name="modern_menu_about_desc">Información de la versión y créditos</string>
     <string name="modern_menu_goal_desc">Meta diaria de estudio (%1$s h)</string>
-    <string name="modern_menu_section_sync">Sincronización y Red</string>
-    <string name="sync_title">Sincronización</string>
-    <string name="sync_status_online">En línea · Sincronizado</string>
-    <string name="sync_status_offline">Modo sin conexión · Guardado local</string>
-    <string name="sync_status_syncing">Sincronizando datos…</string>
-    <string name="sync_now">Sincronizar ahora</string>
-    <string name="sync_pending_count">%1$d cambios pendientes de sincronizar</string>
-    <string name="sync_last_time">Última sincronización: %1$s</string>
-    <string name="sync_just_now">Hace un momento</string>
-    <string name="sync_never">Nunca</string>
-    <string name="sync_completed_toast">Sincronización completada (%1$d elementos)</string>
-    <string name="sync_network_restored">Conexión restablecida. Sincronizando datos…</string>
-    <string name="sync_offline_mode_banner">Modo sin conexión · Tareas y temporizador protegidos localmente</string>
-    <string name="sync_offline_detail">Tus tareas, cambios y sesiones pomodoro se guardan de forma local en tu dispositivo y se sincronizarán al recuperar conexión.</string>
 
     <!-- Actualizaciones -->
     <string name="menu_check_update">Buscar actualizaciones</string>

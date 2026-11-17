@@ -37,7 +37,22 @@ jobs:
       - name: Lint
         run: ./gradlew lintDebug --no-daemon
 
+      - name: Restore release keystore
+        env:
+          KEYSTORE_BASE64: ${{ secrets.STUDYBUDDY_KEYSTORE_BASE64 }}
+        run: |
+          if [ -z "$KEYSTORE_BASE64" ]; then
+            echo "::error::Falta el secret STUDYBUDDY_KEYSTORE_BASE64; no se publica una release sin firma oficial."
+            exit 1
+          fi
+          echo "$KEYSTORE_BASE64" | base64 -d > "$RUNNER_TEMP/release.jks"
+          echo "STUDYBUDDY_KEYSTORE_FILE=$RUNNER_TEMP/release.jks" >> "$GITHUB_ENV"
+
       - name: Build release APK
+        env:
+          STUDYBUDDY_KEYSTORE_PASSWORD: ${{ secrets.STUDYBUDDY_KEYSTORE_PASSWORD }}
+          STUDYBUDDY_KEY_ALIAS: ${{ secrets.STUDYBUDDY_KEY_ALIAS }}
+          STUDYBUDDY_KEY_PASSWORD: ${{ secrets.STUDYBUDDY_KEY_PASSWORD }}
         run: ./gradlew assembleRelease --no-daemon
 
       - name: Publish GitHub Release

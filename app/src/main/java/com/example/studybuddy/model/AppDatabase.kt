@@ -132,6 +132,19 @@ abstract class AppDatabase : RoomDatabase() {
             }
         }
 
+        /** Garantiza las 4 categorías por defecto de forma idempotente al abrir la base de datos. */
+        private object SeedDefaultCategories : RoomDatabase.Callback() {
+            override fun onOpen(db: SupportSQLiteDatabase) {
+                db.execSQL(
+                    "INSERT OR IGNORE INTO categories (id, name, icon, color) VALUES " +
+                        "(1, 'general', 'ic_cat_star', 0xFF607D8B), " +
+                        "(2, 'study', 'ic_cat_book', 0xFF3F51B5), " +
+                        "(3, 'work', 'ic_cat_briefcase', 0xFFF57C00), " +
+                        "(4, 'personal', 'ic_cat_home', 0xFF00897B)"
+                )
+            }
+        }
+
         fun getInstance(context: Context): AppDatabase {
             return INSTANCE ?: synchronized(this) {
                 INSTANCE ?: Room.databaseBuilder(
@@ -140,6 +153,7 @@ abstract class AppDatabase : RoomDatabase() {
                     DB_NAME
                 )
                     .addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4)
+                    .addCallback(SeedDefaultCategories)
                     .build()
                     .also { INSTANCE = it }
             }

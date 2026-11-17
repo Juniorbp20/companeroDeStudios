@@ -83,20 +83,6 @@
     <string name="modern_menu_update_desc">Check if a newer version is available</string>
     <string name="modern_menu_about_desc">Version info, license &amp; credits</string>
     <string name="modern_menu_goal_desc">Daily study goal (%1$s h)</string>
-    <string name="modern_menu_section_sync">Sync &amp; Network</string>
-    <string name="sync_title">Synchronization</string>
-    <string name="sync_status_online">Online · Synced</string>
-    <string name="sync_status_offline">Offline mode · Saved locally</string>
-    <string name="sync_status_syncing">Syncing data…</string>
-    <string name="sync_now">Sync now</string>
-    <string name="sync_pending_count">%1$d pending changes to sync</string>
-    <string name="sync_last_time">Last synced: %1$s</string>
-    <string name="sync_just_now">Just now</string>
-    <string name="sync_never">Never</string>
-    <string name="sync_completed_toast">Sync completed (%1$d items)</string>
-    <string name="sync_network_restored">Connection restored. Syncing data…</string>
-    <string name="sync_offline_mode_banner">Offline mode · Tasks &amp; timer protected locally</string>
-    <string name="sync_offline_detail">Your tasks, updates, and pomodoro sessions are stored locally on your device and will sync as soon as connectivity returns.</string>
 
     <!-- Updates -->
     <string name="menu_check_update">Check for updates</string>

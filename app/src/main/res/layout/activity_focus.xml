@@ -34,37 +34,6 @@
             android:paddingHorizontal="24dp"
             android:paddingVertical="16dp">
 
-            <!-- Offline & Local Sync indicator -->
-            <LinearLayout
-                android:id="@+id/layout_focus_sync_status"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="12dp"
-                android:background="@drawable/bg_category_badge"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:paddingHorizontal="10dp"
-                android:paddingVertical="4dp">
-
-                <ImageView
-                    android:id="@+id/icon_focus_sync"
-                    android:layout_width="14dp"
-                    android:layout_height="14dp"
-                    android:contentDescription="@null"
-                    android:src="@drawable/ic_cloud_done"
-                    app:tint="?attr/colorPrimary" />
-
-                <TextView
-                    android:id="@+id/text_focus_sync"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="6dp"
-                    android:text="@string/sync_status_online"
-                    android:textColor="?attr/colorPrimary"
-                    android:textSize="11sp"
-                    android:textStyle="bold" />
-            </LinearLayout>
-
             <!-- Presets ChipGroup -->
             <HorizontalScrollView
                 android:layout_width="wrap_content"

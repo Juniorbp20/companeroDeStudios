@@ -15,8 +15,19 @@ import java.net.URL
 
 object UpdateChecker {
 
+    /** Repositorio donde el CD (`.github/workflows/cd.yml`) publica las releases. */
+    private const val GITHUB_REPO = "Juniorbp20/studdyBuddy2.0"
     private const val GITHUB_API_LATEST =
-        "https://api.github.com/repos/Juniorbp20/StudyBuddy/releases/latest"
+        "https://api.github.com/repos/$GITHUB_REPO/releases/latest"
+
+    private val VERSION_TAG_REGEX = Regex("""^v?(\d+)""")
+
+    /**
+     * Extrae el versionCode del tag de la release. Convención: el tag es `v<versionCode>`
+     * (p. ej. `v8`); también se aceptan `v8.0` o `8.1.2`, de los que se toma el primer número.
+     */
+    fun parseVersionCode(tag: String): Int? =
+        VERSION_TAG_REGEX.find(tag.trim())?.groupValues?.get(1)?.toIntOrNull()
 
     data class UpdateInfo(
         val versionCode: Int,
@@ -32,13 +43,14 @@ object UpdateChecker {
                 connectTimeout = 10_000
                 readTimeout = 10_000
             }
+            connection.setRequestProperty("User-Agent", "StudyBuddy-Android")
             if (connection.responseCode != 200) {
                 return@withContext null
             }
             val body = connection.inputStream.bufferedReader().use { it.readText() }
             val root = JSONObject(body)
             val tag = root.optString("tag_name", "")
-            val version = tag.removePrefix("v").toIntOrNull() ?: return@withContext null
+            val version = parseVersionCode(tag) ?: return@withContext null
             val assets = root.optJSONArray("assets") ?: return@withContext UpdateInfo(version, tag, "")
             var apkUrl = ""
             for (i in 0 until assets.length()) {

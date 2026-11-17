@@ -23,6 +23,9 @@ interface SubTaskDao {
     @Query("SELECT * FROM subtasks WHERE task_id = :taskId ORDER BY id ASC")
     fun getSubtasksForTask(taskId: Int): Flow<List<SubTask>>
 
+    @Query("SELECT * FROM subtasks WHERE task_id = :taskId ORDER BY id ASC")
+    suspend fun getSubtasksForTaskOnce(taskId: Int): List<SubTask>
+
     @Query("DELETE FROM subtasks WHERE task_id = :taskId")
     suspend fun deleteForTask(taskId: Int)
 }

@@ -51,14 +51,8 @@ class TaskDetailActivity : AppCompatActivity() {
 
         binding.checkboxComplete.setOnCheckedChangeListener { _, isChecked ->
             taskViewModel.allTasks.value?.firstOrNull { it.id == taskId }?.let { task ->
-                taskViewModel.update(
-                    task.copy(
-                        isCompleted = isChecked,
-                        completedAt = if (isChecked) System.currentTimeMillis() else 0L
-                    )
-                )
-                if (isChecked) {
-                    AlarmManagerHelper(this).cancelAlarm(taskId)
+                if (task.isCompleted != isChecked) {
+                    taskViewModel.setCompleted(task, isChecked)
                 }
             }
         }

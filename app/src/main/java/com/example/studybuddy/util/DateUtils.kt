@@ -41,4 +41,21 @@ object DateUtils {
         cal.set(Calendar.MILLISECOND, 0)
         return cal.timeInMillis
     }
+
+    /** Inicio (medianoche local) de los últimos [n] días, del más antiguo a hoy. Respeta cambios de horario. */
+    fun lastNDayStarts(n: Int, now: Long = System.currentTimeMillis()): List<Long> {
+        val cal = Calendar.getInstance()
+        cal.timeInMillis = startOfDay(now)
+        val result = ArrayList<Long>(n)
+        cal.add(Calendar.DAY_OF_MONTH, -(n - 1))
+        repeat(n) {
+            result.add(startOfDay(cal.timeInMillis))
+            cal.add(Calendar.DAY_OF_MONTH, 1)
+        }
+        return result
+    }
+
+    /** Agrupa marcas de tiempo por día local; la clave es la medianoche local del día. */
+    fun countByLocalDay(timestamps: List<Long>): Map<Long, Int> =
+        timestamps.groupingBy { startOfDay(it) }.eachCount()
 }

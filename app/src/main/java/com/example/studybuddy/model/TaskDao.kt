@@ -65,12 +65,15 @@ interface TaskDao {
     @Query("SELECT COUNT(*) FROM tasks WHERE is_completed = 1 AND completed_at >= :weekAgo")
     fun getCompletedThisWeek(weekAgo: Long): Flow<Int>
 
-    @Query(
-        "SELECT (completed_at / 86400000) AS day, COUNT(*) AS count FROM tasks " +
-            "WHERE is_completed = 1 AND completed_at >= :weekStart " +
-            "GROUP BY day ORDER BY day ASC"
-    )
-    fun getCompletedPerDay(weekStart: Long): Flow<List<DayCount>>
+    /** Marcas de completado desde [since]; se agrupan por día local en Kotlin (no en UTC). */
+    @Query("SELECT completed_at FROM tasks WHERE is_completed = 1 AND completed_at >= :since ORDER BY completed_at ASC")
+    fun getCompletedTimestampsSince(since: Long): Flow<List<Long>>
+
+    @Query("SELECT * FROM tasks WHERE id = :id LIMIT 1")
+    suspend fun getById(id: Int): Task?
+
+    @Query("SELECT * FROM tasks WHERE is_completed = 0 AND reminder_enabled = 1 AND due_date > :now")
+    suspend fun getPendingRemindersAfter(now: Long): List<Task>
 
     @Query("SELECT COUNT(*) FROM tasks WHERE is_completed = 0 AND due_date >= :dayStart AND due_date < :dayEnd")
     fun getTasksCountForDay(dayStart: Long, dayEnd: Long): Flow<Int>
@@ -82,4 +85,5 @@ interface TaskDao {
     fun getTasksInRange(rangeStart: Long, rangeEnd: Long): Flow<List<Task>>
 }
 
+/** [day] es la medianoche local (epoch en ms) del día agrupado. */
 data class DayCount(val day: Long, val count: Int)

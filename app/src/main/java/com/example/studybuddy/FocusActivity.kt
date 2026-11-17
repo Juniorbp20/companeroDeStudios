@@ -24,7 +24,6 @@ import com.example.studybuddy.notification.FocusAlarmReceiver
 import com.example.studybuddy.notification.NotificationHelper
 import com.example.studybuddy.util.FocusSessionStore
 import com.example.studybuddy.util.PomodoroSoundPlayer
-import com.example.studybuddy.util.SyncManager
 import com.google.android.material.color.MaterialColors
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.coroutines.launch
@@ -104,44 +103,8 @@ class FocusActivity : AppCompatActivity() {
         }
 
         requestNotificationPermissionIfNeeded()
-        observeSyncState()
     }
 
-    private fun observeSyncState() {
-        val syncManager = SyncManager.getInstance(this)
-        lifecycleScope.launch {
-            syncManager.syncState.collect { state ->
-                if (!state.isOnline) {
-                    binding.iconFocusSync.setImageResource(R.drawable.ic_cloud_off)
-                    binding.iconFocusSync.imageTintList = ColorStateList.valueOf(
-                        ContextCompat.getColor(this@FocusActivity, android.R.color.holo_orange_dark)
-                    )
-                    binding.textFocusSync.setText(R.string.sync_status_offline)
-                    binding.textFocusSync.setTextColor(
-                        ContextCompat.getColor(this@FocusActivity, android.R.color.holo_orange_dark)
-                    )
-                } else if (state.isSyncing) {
-                    binding.iconFocusSync.setImageResource(R.drawable.ic_sync)
-                    binding.iconFocusSync.imageTintList = ColorStateList.valueOf(
-                        MaterialColors.getColor(binding.root, com.google.android.material.R.attr.colorPrimary)
-                    )
-                    binding.textFocusSync.setText(R.string.sync_status_syncing)
-                    binding.textFocusSync.setTextColor(
-                        MaterialColors.getColor(binding.root, com.google.android.material.R.attr.colorPrimary)
-                    )
-                } else {
-                    binding.iconFocusSync.setImageResource(R.drawable.ic_cloud_done)
-                    binding.iconFocusSync.imageTintList = ColorStateList.valueOf(
-                        MaterialColors.getColor(binding.root, com.google.android.material.R.attr.colorPrimary)
-                    )
-                    binding.textFocusSync.setText(R.string.sync_status_online)
-                    binding.textFocusSync.setTextColor(
-                        MaterialColors.getColor(binding.root, com.google.android.material.R.attr.colorPrimary)
-                    )
-                }
-            }
-        }
-    }
 
     override fun onResume() {
         super.onResume()
@@ -199,8 +162,6 @@ class FocusActivity : AppCompatActivity() {
             .putLong(KEY_REMAINING_MILLIS, remainingMillis)
             .apply()
 
-        // Persist snapshot to SyncManager for local offline resilience
-        SyncManager.getInstance(this).enqueuePomodoroTimerState(this, currentMode, remainingMillis, isRunning)
     }
 
     private fun syncTimerWithBackgroundState() {
