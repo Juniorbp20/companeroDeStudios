@@ -437,11 +437,17 @@
                         android:textStyle="bold" />
                 </LinearLayout>
 
-                <WebView
-                    android:id="@+id/webview_recharts_dashboard"
+                <!-- Contenedor de altura fija: el WebView no debe tener un padre wrap_content (lint WebViewLayout). -->
+                <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="275dp"
-                    android:layout_marginTop="6dp" />
+                    android:layout_marginTop="6dp">
+
+                    <WebView
+                        android:id="@+id/webview_recharts_dashboard"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+                </FrameLayout>
 
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
