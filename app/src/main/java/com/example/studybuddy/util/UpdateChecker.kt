@@ -16,7 +16,7 @@ import java.net.URL
 object UpdateChecker {
 
     /** Repositorio donde el CD (`.github/workflows/cd.yml`) publica las releases. */
-    private const val GITHUB_REPO = "Juniorbp20/studdyBuddy2.0"
+    private const val GITHUB_REPO = "Juniorbp20/companeroDeStudios"
     private const val GITHUB_API_LATEST =
         "https://api.github.com/repos/$GITHUB_REPO/releases/latest"
 
