@@ -6,6 +6,7 @@ import com.example.studybuddy.model.AppDatabase
 import com.example.studybuddy.model.CategoryDao
 import com.example.studybuddy.model.CategoryEntity
 import com.example.studybuddy.model.DayCount
+import com.example.studybuddy.model.RepeatInterval
 import com.example.studybuddy.model.SubTask
 import com.example.studybuddy.model.SubTaskDao
 import com.example.studybuddy.model.Task
@@ -131,6 +132,7 @@ class TaskRepository(private val context: Context) {
             current.copy(isCompleted = completed, completedAt = if (completed) now else 0L)
         )
         if (!completed) {
+            removeGeneratedOccurrence(current)
             scheduleReminderIfNeeded(current.copy(isCompleted = false))
             return@withTransaction null
         }
@@ -141,6 +143,28 @@ class TaskRepository(private val context: Context) {
             subTaskDao.insert(it.copy(id = 0, taskId = nextId, isCompleted = false))
         }
         next.copy(id = nextId).also { scheduleReminderIfNeeded(it) }
+    }
+
+    /**
+     * Al reabrir una tarea recurrente, elimina la ocurrencia que se generó al completarla
+     * (si sigue pendiente), para no dejar dos tareas activas de la misma serie.
+     * La fecha esperada es determinista: se calculó con la hora de completado como "ahora".
+     */
+    private suspend fun removeGeneratedOccurrence(reopened: Task) {
+        if (reopened.repeatInterval <= RepeatInterval.NONE || reopened.completedAt <= 0L) return
+        val expectedDue = RecurrenceUtils.nextDueDate(
+            reopened.dueDate, reopened.repeatInterval, reopened.completedAt
+        )
+        val generated = taskDao.findGeneratedOccurrence(
+            excludeId = reopened.id,
+            title = reopened.title,
+            categoryId = reopened.categoryId,
+            repeatInterval = reopened.repeatInterval,
+            dueDate = expectedDue,
+            createdAfter = reopened.completedAt
+        ) ?: return
+        alarmHelper.cancelAlarm(generated.id)
+        taskDao.delete(generated)
     }
 
     /** Reprograma los recordatorios de tareas pendientes (tras reinicio o cambio de hora). */

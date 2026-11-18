@@ -69,6 +69,21 @@ interface TaskDao {
     @Query("SELECT completed_at FROM tasks WHERE is_completed = 1 AND completed_at >= :since ORDER BY completed_at ASC")
     fun getCompletedTimestampsSince(since: Long): Flow<List<Long>>
 
+    /** Busca la ocurrencia pendiente que se generó al completar una tarea recurrente. */
+    @Query(
+        "SELECT * FROM tasks WHERE is_completed = 0 AND id != :excludeId AND title = :title " +
+            "AND category_id = :categoryId AND repeat_interval = :repeatInterval " +
+            "AND due_date = :dueDate AND created_at >= :createdAfter ORDER BY id DESC LIMIT 1"
+    )
+    suspend fun findGeneratedOccurrence(
+        excludeId: Int,
+        title: String,
+        categoryId: Int,
+        repeatInterval: Int,
+        dueDate: Long,
+        createdAfter: Long
+    ): Task?
+
     @Query("SELECT * FROM tasks WHERE id = :id LIMIT 1")
     suspend fun getById(id: Int): Task?
 

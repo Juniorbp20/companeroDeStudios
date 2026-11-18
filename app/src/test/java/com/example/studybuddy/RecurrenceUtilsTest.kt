@@ -65,4 +65,20 @@ class RecurrenceUtilsTest {
     fun nextOccurrenceIsNullForNonRecurring() {
         assertNull(RecurrenceUtils.nextOccurrence(Task(title = "x")))
     }
+
+    @Test
+    fun expectedDueOnReopenMatchesGeneratedOccurrence() {
+        // TaskRepository localiza la ocurrencia generada recalculando la fecha con completedAt.
+        val completedAt = at(2026, 0, 12, 18)
+        val task = Task(
+            title = "Leer", dueDate = at(2026, 0, 10),
+            repeatInterval = RepeatInterval.WEEKLY, completedAt = completedAt, isCompleted = true
+        )
+        val generated = RecurrenceUtils.nextOccurrence(task, completedAt)!!
+        assertEquals(
+            generated.dueDate,
+            RecurrenceUtils.nextDueDate(task.dueDate, task.repeatInterval, task.completedAt)
+        )
+        assertEquals(completedAt, generated.createdAt)
+    }
 }
