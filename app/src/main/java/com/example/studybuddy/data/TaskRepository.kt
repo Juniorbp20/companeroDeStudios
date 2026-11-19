@@ -2,6 +2,7 @@ package com.example.studybuddy.data
 
 import android.content.Context
 import androidx.room.withTransaction
+import com.example.studybuddy.agenda.AgendaGrouper
 import com.example.studybuddy.game.GamificationStore
 import com.example.studybuddy.model.AppDatabase
 import com.example.studybuddy.model.CategoryDao
@@ -168,6 +169,18 @@ class TaskRepository(private val context: Context) {
         ) ?: return
         alarmHelper.cancelAlarm(generated.id)
         taskDao.delete(generated)
+    }
+
+    /** Pospone una tarea pendiente un día (o a mañana si no tenía fecha) y reprograma su recordatorio. */
+    suspend fun postpone(task: Task): Task = withContext(Dispatchers.IO) {
+        val current = taskDao.getById(task.id) ?: task
+        val moved = current.copy(
+            dueDate = AgendaGrouper.postponedDueDate(current.dueDate, System.currentTimeMillis())
+        )
+        taskDao.update(moved)
+        alarmHelper.cancelAlarm(moved.id)
+        scheduleReminderIfNeeded(moved)
+        moved
     }
 
     /** Reprograma los recordatorios de tareas pendientes (tras reinicio o cambio de hora). */

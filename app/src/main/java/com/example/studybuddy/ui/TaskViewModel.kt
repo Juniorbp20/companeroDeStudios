@@ -160,6 +160,10 @@ class TaskViewModel(application: Application) : AndroidViewModel(application) {
 
     suspend fun insertNow(task: Task): Long = repository.insert(task)
 
+    fun postpone(task: Task, onDone: (Task) -> Unit = {}) {
+        viewModelScope.launch { onDone(repository.postpone(task)) }
+    }
+
     fun insertSubTask(subTask: SubTask) {
         viewModelScope.launch {
             repository.insertSubTask(subTask)

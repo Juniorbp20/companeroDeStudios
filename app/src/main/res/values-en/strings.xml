@@ -348,4 +348,24 @@
     <string name="focus_ambient_rain">🌧️ Rain</string>
     <string name="focus_ambient_white">🌬️ White noise</string>
     <string name="focus_ambient_brown">🌊 Brown noise</string>
+
+    <!-- Agenda -->
+    <string name="agenda_title">Agenda</string>
+    <string name="agenda_range_today">Today</string>
+    <string name="agenda_range_week">Week</string>
+    <string name="agenda_range_all">All</string>
+    <string name="agenda_swipe_hint">Swipe → to postpone a day · ← to complete</string>
+    <string name="agenda_empty_emoji">🎉</string>
+    <string name="agenda_empty">Nothing pending! Enjoy your free time</string>
+    <string name="agenda_add">New task</string>
+    <string name="agenda_complete">Complete task</string>
+    <string name="agenda_month_view">Month view</string>
+    <string name="agenda_overdue">⚠️ Overdue</string>
+    <string name="agenda_today">☀️ Today</string>
+    <string name="agenda_tomorrow">🌤️ Tomorrow</string>
+    <string name="agenda_later">🗓️ Later</string>
+    <string name="agenda_no_date">📥 No date</string>
+    <string name="agenda_postponed">Postponed to %1$s</string>
+    <string name="agenda_completed">Task completed! ✅</string>
+    <string name="agenda_no_time">No time</string>
 </resources>
