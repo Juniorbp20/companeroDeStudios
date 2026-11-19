@@ -12,21 +12,25 @@ import android.os.Vibrator
 import android.os.VibratorManager
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
+import com.example.studybuddy.data.ServiceLocator
 import com.example.studybuddy.databinding.ActivityFocusBinding
 import com.example.studybuddy.databinding.DialogPomodoroConfigBinding
 import com.example.studybuddy.notification.FocusAlarmHelper
 import com.example.studybuddy.game.GameUi
 import com.example.studybuddy.notification.FocusAlarmReceiver
 import com.example.studybuddy.notification.NotificationHelper
+import com.example.studybuddy.util.AmbientSoundPlayer
 import com.example.studybuddy.util.FocusSessionStore
 import com.example.studybuddy.util.PomodoroSoundPlayer
 import com.google.android.material.color.MaterialColors
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import java.util.Locale
 
@@ -94,6 +98,8 @@ class FocusActivity : AppCompatActivity() {
         loadPreferences()
         setupListeners()
         setupPresets()
+        setupLinkedTask()
+        setupAmbientSound()
 
         if (intent.getBooleanExtra(EXTRA_START_IMMEDIATELY, false)) {
             binding.root.post {
@@ -132,6 +138,7 @@ class FocusActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         timer?.cancel()
+        AmbientSoundPlayer.stop()
     }
 
     private fun loadPreferences() {
@@ -204,6 +211,81 @@ class FocusActivity : AppCompatActivity() {
         binding.textTimeHint.setOnClickListener { showIntervalsConfigDialog() }
     }
 
+    private fun setupLinkedTask() {
+        binding.cardLinkedTask.setOnClickListener { pickLinkedTask() }
+        renderLinkedTask()
+    }
+
+    private fun renderLinkedTask() {
+        val id = FocusSessionStore.getLinkedTaskId(this)
+        val title = FocusSessionStore.getLinkedTaskTitle(this)
+        if (id > 0 && !title.isNullOrBlank()) {
+            binding.textLinkedTask.text = title
+            val minutes = FocusSessionStore.taskMinutes(this, id)
+            binding.textLinkedTaskMinutes.visibility = if (minutes > 0) View.VISIBLE else View.GONE
+            binding.textLinkedTaskMinutes.text = getString(R.string.focus_task_minutes, minutes)
+        } else {
+            binding.textLinkedTask.setText(R.string.focus_linked_task_none)
+            binding.textLinkedTaskMinutes.visibility = View.GONE
+        }
+    }
+
+    /** Muestra las tareas pendientes para vincular la sesión de enfoque a una de ellas. */
+    private fun pickLinkedTask() {
+        lifecycleScope.launch {
+            val pending = ServiceLocator.getRepository(this@FocusActivity).allTasks.first()
+                .filter { !it.isCompleted }
+            if (pending.isEmpty()) {
+                Toast.makeText(this@FocusActivity, R.string.focus_linked_task_empty, Toast.LENGTH_SHORT).show()
+                return@launch
+            }
+            val labels = arrayOf(getString(R.string.focus_linked_task_clear)) +
+                pending.map { it.title }.toTypedArray()
+            MaterialAlertDialogBuilder(this@FocusActivity)
+                .setTitle(R.string.focus_linked_task_pick)
+                .setItems(labels) { _, which ->
+                    if (which == 0) {
+                        FocusSessionStore.clearLinkedTask(this@FocusActivity)
+                    } else {
+                        val task = pending[which - 1]
+                        FocusSessionStore.setLinkedTask(this@FocusActivity, task.id, task.title)
+                    }
+                    renderLinkedTask()
+                }
+                .show()
+        }
+    }
+
+    private fun setupAmbientSound() {
+        val chipId = when (AmbientSoundPlayer.getType(this)) {
+            AmbientSoundPlayer.Type.RAIN -> R.id.chip_ambient_rain
+            AmbientSoundPlayer.Type.WHITE -> R.id.chip_ambient_white
+            AmbientSoundPlayer.Type.BROWN -> R.id.chip_ambient_brown
+            AmbientSoundPlayer.Type.NONE -> R.id.chip_ambient_none
+        }
+        binding.chipGroupAmbient.check(chipId)
+        binding.chipGroupAmbient.setOnCheckedStateChangeListener { _, checkedIds ->
+            val type = when (checkedIds.firstOrNull()) {
+                R.id.chip_ambient_rain -> AmbientSoundPlayer.Type.RAIN
+                R.id.chip_ambient_white -> AmbientSoundPlayer.Type.WHITE
+                R.id.chip_ambient_brown -> AmbientSoundPlayer.Type.BROWN
+                else -> AmbientSoundPlayer.Type.NONE
+            }
+            AmbientSoundPlayer.setType(this, type)
+            updateAmbientPlayback(running = isRunning)
+        }
+    }
+
+    /** El sonido ambiental solo suena mientras corre un bloque de enfoque. */
+    private fun updateAmbientPlayback(running: Boolean) {
+        val type = AmbientSoundPlayer.getType(this)
+        if (running && currentMode == FocusAlarmReceiver.MODE_FOCUS && type != AmbientSoundPlayer.Type.NONE) {
+            AmbientSoundPlayer.start(type)
+        } else {
+            AmbientSoundPlayer.stop()
+        }
+    }
+
     private fun setupPresets() {
         binding.chipClassic.setOnClickListener { applyPreset(25, 5, 15, 4) }
         binding.chipDeep.setOnClickListener { applyPreset(50, 10, 20, 4) }
@@ -244,6 +326,7 @@ class FocusActivity : AppCompatActivity() {
 
     private fun startTimer() {
         requestNotificationPermissionIfNeeded()
+        updateAmbientPlayback(running = true)
 
         isRunning = true
         targetEndTimeMillis = System.currentTimeMillis() + remainingMillis
@@ -279,6 +362,7 @@ class FocusActivity : AppCompatActivity() {
 
     private fun pauseTimer() {
         isRunning = false
+        updateAmbientPlayback(running = false)
         targetEndTimeMillis = 0L
         focusAlarmHelper.cancelFocusAlarm()
         notificationHelper.cancelFocusOngoingNotification()
@@ -303,6 +387,7 @@ class FocusActivity : AppCompatActivity() {
     }
 
     private fun onTimerFinished(fromBackground: Boolean) {
+        updateAmbientPlayback(running = false)
         focusAlarmHelper.cancelFocusAlarm()
         notificationHelper.cancelFocusOngoingNotification()
         timer?.cancel()
@@ -320,6 +405,7 @@ class FocusActivity : AppCompatActivity() {
         if (currentMode == FocusAlarmReceiver.MODE_FOCUS) {
             if (!userSkipped) {
                 FocusSessionStore.recordSession(this)
+                renderLinkedTask()
                 if (com.example.studybuddy.util.StudyGoalManager.isGoalMetToday(this)) {
                     notificationHelper.cancelDailyGoalReminderNotification()
                 }

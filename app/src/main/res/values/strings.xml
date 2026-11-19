@@ -334,4 +334,18 @@
     <string name="ach_first_exam_desc">Registra tu primer examen</string>
     <string name="ach_notes_10_title">Apuntes al día</string>
     <string name="ach_notes_10_desc">Escribe 10 notas</string>
+
+    <!-- Pomodoro mejorado -->
+    <string name="focus_linked_task_label">Estudiando para</string>
+    <string name="focus_linked_task_none">Sin tarea · toca para elegir</string>
+    <string name="focus_linked_task_change">Cambiar</string>
+    <string name="focus_linked_task_pick">¿En qué tarea vas a enfocarte?</string>
+    <string name="focus_linked_task_clear">Sin tarea</string>
+    <string name="focus_linked_task_empty">No tienes tareas pendientes</string>
+    <string name="focus_task_minutes">⏱️ %1$d min de enfoque</string>
+    <string name="focus_ambient_title">Sonido ambiental</string>
+    <string name="focus_ambient_none">🔇 Silencio</string>
+    <string name="focus_ambient_rain">🌧️ Lluvia</string>
+    <string name="focus_ambient_white">🌬️ Ruido blanco</string>
+    <string name="focus_ambient_brown">🌊 Ruido marrón</string>
 </resources>

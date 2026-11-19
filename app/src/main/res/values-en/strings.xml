@@ -334,4 +334,18 @@
     <string name="ach_first_exam_desc">Add your first exam</string>
     <string name="ach_notes_10_title">Notes on point</string>
     <string name="ach_notes_10_desc">Write 10 notes</string>
+
+    <!-- Enhanced Pomodoro -->
+    <string name="focus_linked_task_label">Studying for</string>
+    <string name="focus_linked_task_none">No task · tap to choose</string>
+    <string name="focus_linked_task_change">Change</string>
+    <string name="focus_linked_task_pick">Which task will you focus on?</string>
+    <string name="focus_linked_task_clear">No task</string>
+    <string name="focus_linked_task_empty">You have no pending tasks</string>
+    <string name="focus_task_minutes">⏱️ %1$d min of focus</string>
+    <string name="focus_ambient_title">Ambient sound</string>
+    <string name="focus_ambient_none">🔇 Silence</string>
+    <string name="focus_ambient_rain">🌧️ Rain</string>
+    <string name="focus_ambient_white">🌬️ White noise</string>
+    <string name="focus_ambient_brown">🌊 Brown noise</string>
 </resources>
