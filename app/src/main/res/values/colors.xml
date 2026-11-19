@@ -1,35 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="md_primary">#4F46E5</color>
+    <!-- Paleta "Compañero" colorida y gamificada (tema claro) -->
+    <color name="md_primary">#7C3AED</color>
     <color name="md_on_primary">#FFFFFF</color>
-    <color name="md_primary_container">#EEF2FF</color>
-    <color name="md_on_primary_container">#312E81</color>
-    <color name="md_secondary">#0EA5E9</color>
+    <color name="md_primary_container">#EDE4FF</color>
+    <color name="md_on_primary_container">#3B0F8C</color>
+    <color name="md_secondary">#F43F5E</color>
     <color name="md_on_secondary">#FFFFFF</color>
-    <color name="md_secondary_container">#E0F2FE</color>
-    <color name="md_on_secondary_container">#0369A1</color>
+    <color name="md_secondary_container">#FFE1E7</color>
+    <color name="md_on_secondary_container">#8A1030</color>
     <color name="md_tertiary">#F59E0B</color>
     <color name="md_on_tertiary">#FFFFFF</color>
-    <color name="md_tertiary_container">#FEF3C7</color>
-    <color name="md_on_tertiary_container">#78350F</color>
-    <color name="md_background">#F8FAFC</color>
-    <color name="md_on_background">#0F172A</color>
+    <color name="md_tertiary_container">#FFF1C7</color>
+    <color name="md_on_tertiary_container">#7A4300</color>
+    <color name="md_background">#FBF8FF</color>
+    <color name="md_on_background">#1C1433</color>
     <color name="md_surface">#FFFFFF</color>
-    <color name="md_on_surface">#0F172A</color>
-    <color name="md_surface_variant">#F1F5F9</color>
-    <color name="md_on_surface_variant">#475569</color>
-    <color name="md_outline">#CBD5E1</color>
-    <color name="md_error">#EF4444</color>
+    <color name="md_on_surface">#1C1433</color>
+    <color name="md_surface_variant">#F2EDFA</color>
+    <color name="md_on_surface_variant">#5B5270</color>
+    <color name="md_surface_container">#F6F2FD</color>
+    <color name="md_outline">#D8CFE8</color>
+    <color name="md_error">#E11D48</color>
     <color name="md_on_error">#FFFFFF</color>
-    <color name="md_error_container">#FEE2E2</color>
-    <color name="md_on_error_container">#991B1B</color>
+    <color name="md_error_container">#FFE1E7</color>
+    <color name="md_on_error_container">#8A1030</color>
 
-    <color name="category_study">#3F51B5</color>
-    <color name="category_work">#F57C00</color>
-    <color name="category_personal">#00897B</color>
-    <color name="category_general">#64748B</color>
+    <!-- Gamificación -->
+    <color name="game_xp">#FBBF24</color>
+    <color name="game_xp_track">#33FFFFFF</color>
+    <color name="game_streak">#F97316</color>
+    <color name="game_streak_container">#FFEAD5</color>
+    <color name="game_success">#10B981</color>
+    <color name="game_success_container">#D1FAE5</color>
+    <color name="game_info">#0EA5E9</color>
+    <color name="game_info_container">#E0F2FE</color>
+    <color name="game_locked">#B9B2C9</color>
+    <color name="game_hero_start">#7C3AED</color>
+    <color name="game_hero_center">#C026D3</color>
+    <color name="game_hero_end">#F43F5E</color>
+    <color name="game_focus_start">#0EA5E9</color>
+    <color name="game_focus_end">#6366F1</color>
+    <color name="game_on_hero">#FFFFFF</color>
+    <color name="game_on_hero_secondary">#E6FFFFFF</color>
 
-    <color name="priority_high">#EF4444</color>
+    <color name="category_study">#6366F1</color>
+    <color name="category_work">#F97316</color>
+    <color name="category_personal">#14B8A6</color>
+    <color name="category_general">#8B5CF6</color>
+
+    <color name="priority_high">#F43F5E</color>
     <color name="priority_medium">#F59E0B</color>
     <color name="priority_low">#10B981</color>
 </resources>

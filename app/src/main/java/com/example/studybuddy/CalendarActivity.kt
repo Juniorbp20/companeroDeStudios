@@ -110,19 +110,12 @@ class CalendarActivity : AppCompatActivity(), TaskAdapter.OnItemClickListener {
         task: com.example.studybuddy.model.Task,
         isCompleted: Boolean
     ) {
-        taskViewModel.update(
-            task.copy(
-                isCompleted = isCompleted,
-                completedAt = if (isCompleted) System.currentTimeMillis() else 0L
-            )
-        )
-        if (isCompleted) {
-            com.example.studybuddy.notification.AlarmManagerHelper(this).cancelAlarm(task.id)
-        }
+        taskViewModel.setCompleted(task, isCompleted)
     }
 
     override fun onTaskDelete(task: com.example.studybuddy.model.Task) {
-        taskViewModel.delete(task)
+        // También cancela el recordatorio pendiente de la tarea.
+        taskViewModel.deleteWithUndo(task) { }
     }
 
     override fun onSupportNavigateUp(): Boolean {

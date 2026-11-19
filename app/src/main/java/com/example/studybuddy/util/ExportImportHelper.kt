@@ -29,6 +29,7 @@ object ExportImportHelper {
                 .put("priority", task.priority)
                 .put("reminderEnabled", task.reminderEnabled)
                 .put("createdAt", task.createdAt)
+                .put("completedAt", task.completedAt)
                 .put("repeatInterval", task.repeatInterval)
                 .put("tags", task.tags)
             taskArray.put(obj)

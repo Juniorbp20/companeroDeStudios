@@ -15,6 +15,8 @@
     <string name="nav_tasks">Tareas</string>
     <string name="nav_focus">Pomodoro</string>
     <string name="nav_calendar">Calendario</string>
+    <string name="nav_agenda">Agenda</string>
+    <string name="nav_subjects">Asignaturas</string>
     <string name="nav_statistics">Progreso</string>
     <string name="dashboard_title">Panel de Estudio</string>
     <string name="dashboard_greeting">¡Hola de nuevo! ✨</string>
@@ -83,20 +85,6 @@
     <string name="modern_menu_update_desc">Verificar si hay una versión más reciente</string>
     <string name="modern_menu_about_desc">Información de la versión y créditos</string>
     <string name="modern_menu_goal_desc">Meta diaria de estudio (%1$s h)</string>
-    <string name="modern_menu_section_sync">Sincronización y Red</string>
-    <string name="sync_title">Sincronización</string>
-    <string name="sync_status_online">En línea · Sincronizado</string>
-    <string name="sync_status_offline">Modo sin conexión · Guardado local</string>
-    <string name="sync_status_syncing">Sincronizando datos…</string>
-    <string name="sync_now">Sincronizar ahora</string>
-    <string name="sync_pending_count">%1$d cambios pendientes de sincronizar</string>
-    <string name="sync_last_time">Última sincronización: %1$s</string>
-    <string name="sync_just_now">Hace un momento</string>
-    <string name="sync_never">Nunca</string>
-    <string name="sync_completed_toast">Sincronización completada (%1$d elementos)</string>
-    <string name="sync_network_restored">Conexión restablecida. Sincronizando datos…</string>
-    <string name="sync_offline_mode_banner">Modo sin conexión · Tareas y temporizador protegidos localmente</string>
-    <string name="sync_offline_detail">Tus tareas, cambios y sesiones pomodoro se guardan de forma local en tu dispositivo y se sincronizarán al recuperar conexión.</string>
 
     <!-- Actualizaciones -->
     <string name="menu_check_update">Buscar actualizaciones</string>
@@ -282,4 +270,143 @@
         <item>S</item>
         <item>D</item>
     </string-array>
+
+    <!-- Gamificación -->
+    <string name="game_level">Nivel %1$d</string>
+    <string name="game_level_rank">Nivel %1$d · %2$s</string>
+    <string name="game_xp_progress">%1$d / %2$d XP</string>
+    <string name="game_xp_total">%1$d XP totales</string>
+    <string name="game_streak_days">🔥 %1$d días</string>
+    <string name="game_streak_label">Racha</string>
+    <string name="game_best_streak">Mejor racha: %1$d días</string>
+    <string name="game_streak_zero">¡Empieza tu racha hoy!</string>
+    <string name="game_view_achievements">Ver logros</string>
+    <string name="game_achievements_title">Logros</string>
+    <string name="game_achievements_count">%1$d de %2$d desbloqueados</string>
+    <string name="game_achievement_progress">%1$d / %2$d</string>
+    <string name="game_achievement_reward">+%1$d XP</string>
+    <string name="game_unlocked">¡Desbloqueado!</string>
+    <string name="game_xp_gained">+%1$d XP</string>
+    <string name="game_level_up_title">¡Subiste de nivel!</string>
+    <string name="game_level_up_message">Ahora eres nivel %1$d: %2$s. ¡Sigue así!</string>
+    <string name="game_achievement_unlocked_title">¡Logro desbloqueado!</string>
+    <string name="game_awesome">¡Genial!</string>
+    <string name="game_stat_tasks">Tareas</string>
+    <string name="game_stat_focus">Sesiones</string>
+    <string name="game_stat_hours">Horas</string>
+    <string name="rank_0">Novato</string>
+    <string name="rank_1">Aprendiz</string>
+    <string name="rank_2">Estudiante dedicado</string>
+    <string name="rank_3">Erudito</string>
+    <string name="rank_4">Maestro</string>
+    <string name="rank_5">Leyenda</string>
+    <string name="ach_first_task_title">Primer paso</string>
+    <string name="ach_first_task_desc">Completa tu primera tarea</string>
+    <string name="ach_tasks_10_title">En marcha</string>
+    <string name="ach_tasks_10_desc">Completa 10 tareas</string>
+    <string name="ach_tasks_50_title">Imparable</string>
+    <string name="ach_tasks_50_desc">Completa 50 tareas</string>
+    <string name="ach_tasks_100_title">Centurión</string>
+    <string name="ach_tasks_100_desc">Completa 100 tareas</string>
+    <string name="ach_first_focus_title">Concentración</string>
+    <string name="ach_first_focus_desc">Termina tu primera sesión de enfoque</string>
+    <string name="ach_focus_25_title">Mente de acero</string>
+    <string name="ach_focus_25_desc">Termina 25 sesiones de enfoque</string>
+    <string name="ach_focus_hours_10_title">Ratón de biblioteca</string>
+    <string name="ach_focus_hours_10_desc">Acumula 10 horas de enfoque</string>
+    <string name="ach_streak_3_title">En racha</string>
+    <string name="ach_streak_3_desc">Estudia 3 días seguidos</string>
+    <string name="ach_streak_7_title">Semana perfecta</string>
+    <string name="ach_streak_7_desc">Estudia 7 días seguidos</string>
+    <string name="ach_streak_30_title">Volcán</string>
+    <string name="ach_streak_30_desc">Estudia 30 días seguidos</string>
+    <string name="ach_goal_1_title">Meta cumplida</string>
+    <string name="ach_goal_1_desc">Cumple tu meta diaria de estudio</string>
+    <string name="ach_goal_7_title">Constancia</string>
+    <string name="ach_goal_7_desc">Cumple tu meta diaria 7 días</string>
+    <string name="ach_level_5_title">Estrella</string>
+    <string name="ach_level_5_desc">Alcanza el nivel 5</string>
+    <string name="ach_level_10_title">Realeza</string>
+    <string name="ach_level_10_desc">Alcanza el nivel 10</string>
+    <string name="ach_early_bird_title">Madrugador</string>
+    <string name="ach_early_bird_desc">Completa una tarea antes de las 8:00</string>
+    <string name="ach_night_owl_title">Búho nocturno</string>
+    <string name="ach_night_owl_desc">Termina una sesión de enfoque después de las 22:00</string>
+    <string name="ach_first_exam_title">Preparado</string>
+    <string name="ach_first_exam_desc">Registra tu primer examen</string>
+    <string name="ach_notes_10_title">Apuntes al día</string>
+    <string name="ach_notes_10_desc">Escribe 10 notas</string>
+
+    <!-- Pomodoro mejorado -->
+    <string name="focus_linked_task_label">Estudiando para</string>
+    <string name="focus_linked_task_none">Sin tarea · toca para elegir</string>
+    <string name="focus_linked_task_change">Cambiar</string>
+    <string name="focus_linked_task_pick">¿En qué tarea vas a enfocarte?</string>
+    <string name="focus_linked_task_clear">Sin tarea</string>
+    <string name="focus_linked_task_empty">No tienes tareas pendientes</string>
+    <string name="focus_task_minutes">⏱️ %1$d min de enfoque</string>
+    <string name="focus_ambient_title">Sonido ambiental</string>
+    <string name="focus_ambient_none">🔇 Silencio</string>
+    <string name="focus_ambient_rain">🌧️ Lluvia</string>
+    <string name="focus_ambient_white">🌬️ Ruido blanco</string>
+    <string name="focus_ambient_brown">🌊 Ruido marrón</string>
+
+    <!-- Agenda -->
+    <string name="agenda_title">Agenda</string>
+    <string name="agenda_range_today">Hoy</string>
+    <string name="agenda_range_week">Semana</string>
+    <string name="agenda_range_all">Todo</string>
+    <string name="agenda_swipe_hint">Desliza → para posponer un día · ← para completar</string>
+    <string name="agenda_empty_emoji">🎉</string>
+    <string name="agenda_empty">¡Nada pendiente! Disfruta tu tiempo libre</string>
+    <string name="agenda_add">Nueva tarea</string>
+    <string name="agenda_complete">Completar tarea</string>
+    <string name="agenda_month_view">Vista mensual</string>
+    <string name="agenda_overdue">⚠️ Vencidas</string>
+    <string name="agenda_today">☀️ Hoy</string>
+    <string name="agenda_tomorrow">🌤️ Mañana</string>
+    <string name="agenda_later">🗓️ Más adelante</string>
+    <string name="agenda_no_date">📥 Sin fecha</string>
+    <string name="agenda_postponed">Pospuesta al %1$s</string>
+    <string name="agenda_completed">¡Tarea completada! ✅</string>
+    <string name="agenda_no_time">Sin hora</string>
+
+    <!-- Asignaturas -->
+    <string name="subjects_title">Asignaturas</string>
+    <string name="subjects_upcoming_exams">📝 Próximos exámenes</string>
+    <string name="subjects_no_exams">Sin exámenes a la vista. ¡Respira! 😌</string>
+    <string name="subjects_today_classes">🏫 Clases de hoy</string>
+    <string name="subjects_no_classes_today">Hoy no tienes clases registradas</string>
+    <string name="subjects_my_subjects">📚 Mis asignaturas</string>
+    <string name="subjects_add">Nueva asignatura</string>
+    <string name="subjects_meta">%1$d clases · %2$d notas</string>
+    <string name="subject_tab_schedule">Horario</string>
+    <string name="subject_tab_exams">Exámenes</string>
+    <string name="subject_tab_notes">Notas</string>
+    <string name="subject_add_item">Añadir</string>
+    <string name="subject_summary">%1$d clases · %2$d exámenes · %3$d notas</string>
+    <string name="subject_empty_schedule">Añade tus clases semanales con el botón +</string>
+    <string name="subject_empty_exams">Registra tus exámenes para ver la cuenta atrás</string>
+    <string name="subject_empty_notes">Guarda aquí tus apuntes rápidos</string>
+    <string name="subject_name_hint">Nombre de la asignatura</string>
+    <string name="subject_name_required">Escribe un nombre</string>
+    <string name="class_add_title">Nueva clase</string>
+    <string name="class_room_hint">Aula (opcional)</string>
+    <string name="class_start">Inicio %1$s</string>
+    <string name="class_end">Fin %1$s</string>
+    <string name="class_invalid_time">La hora de fin debe ser posterior al inicio</string>
+    <string name="exam_add_title">Nuevo examen</string>
+    <string name="exam_title_hint">Examen (ej. Parcial tema 1–4)</string>
+    <string name="exam_notes_hint">Temas o notas (opcional)</string>
+    <string name="exam_pick_date">📅 Fecha</string>
+    <string name="exam_pick_time">🕘 Hora</string>
+    <string name="exam_today">¡Hoy!</string>
+    <string name="exam_tomorrow">Mañana</string>
+    <string name="exam_in_days">%1$d días</string>
+    <string name="exam_past">Ya pasó</string>
+    <string name="note_add_title">Nueva nota</string>
+    <string name="note_hint">Escribe tu nota…</string>
+    <string name="note_pin">Fijar / desfijar</string>
+    <string name="item_delete_confirm">¿Eliminar este elemento?</string>
+    <string name="item_options">Opciones</string>
 </resources>

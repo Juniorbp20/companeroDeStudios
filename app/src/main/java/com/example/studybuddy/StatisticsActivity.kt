@@ -65,11 +65,10 @@ class StatisticsActivity : AppCompatActivity() {
     }
 
     private fun updateChart(dayCounts: List<DayCount>) {
-        val today = DateUtils.startOfToday()
-        val data = Array(7) { i ->
-            val dayStart = today - (6 - i) * 24 * 60 * 60 * 1000L
-            val dayKey = dayStart / 86400000L
-            val count = dayCounts.firstOrNull { it.day == dayKey }?.count ?: 0
+        val dayStarts = DateUtils.lastNDayStarts(7)
+        val data = Array(dayStarts.size) { i ->
+            val dayStart = dayStarts[i]
+            val count = dayCounts.firstOrNull { it.day == dayStart }?.count ?: 0
             val label = SimpleDateFormat("EEE", Locale.getDefault()).format(dayStart)
             BarChartView.BarData(label, count)
         }

@@ -22,8 +22,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/dashboard_greeting"
-            android:textSize="24sp"
-            android:textStyle="bold"
+            android:textAppearance="@style/TextAppearance.StudyBuddy.Display"
             tools:text="¡Buenos días! ☀️" />
 
         <TextView
@@ -34,6 +33,14 @@
             android:textColor="?android:attr/textColorSecondary"
             android:textSize="14sp"
             tools:text="Viernes, 25 de septiembre" />
+
+        <!-- Tarjeta de progreso gamificada: nivel, XP, racha -->
+        <include
+            android:id="@+id/game_hero"
+            layout="@layout/view_game_hero"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp" />
 
         <!-- Daily Study Goal Reminder Card -->
         <com.google.android.material.card.MaterialCardView
@@ -437,11 +444,17 @@
                         android:textStyle="bold" />
                 </LinearLayout>
 
-                <WebView
-                    android:id="@+id/webview_recharts_dashboard"
+                <!-- Contenedor de altura fija: el WebView no debe tener un padre wrap_content (lint WebViewLayout). -->
+                <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="275dp"
-                    android:layout_marginTop="6dp" />
+                    android:layout_marginTop="6dp">
+
+                    <WebView
+                        android:id="@+id/webview_recharts_dashboard"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+                </FrameLayout>
 
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>

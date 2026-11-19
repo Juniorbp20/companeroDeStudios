@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -18,26 +20,42 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    // Firma de release: nunca versionada. Se lee de variables de entorno (CI) o de local.properties.
+    //   STUDYBUDDY_KEYSTORE_FILE, STUDYBUDDY_KEYSTORE_PASSWORD, STUDYBUDDY_KEY_ALIAS, STUDYBUDDY_KEY_PASSWORD
+    // Si faltan, la release se firma con la clave de debug estándar (solo para pruebas locales).
+    val localProps = Properties().apply {
+        val f = rootProject.file("local.properties")
+        if (f.exists()) f.inputStream().use { load(it) }
+    }
+    fun signingValue(key: String): String? =
+        System.getenv(key)?.takeIf { it.isNotBlank() } ?: localProps.getProperty(key)?.takeIf { it.isNotBlank() }
+
+    val releaseKeystorePath = signingValue("STUDYBUDDY_KEYSTORE_FILE")
+    val hasReleaseSigning = releaseKeystorePath != null && rootProject.file(releaseKeystorePath).exists()
+
     signingConfigs {
-        create("studybuddy") {
-            storeFile = rootProject.file("keystore/studybuddy.jks")
-            storePassword = "studybuddy"
-            keyAlias = "studybuddy"
-            keyPassword = "studybuddy"
+        if (hasReleaseSigning) {
+            create("release") {
+                storeFile = rootProject.file(releaseKeystorePath!!)
+                storePassword = signingValue("STUDYBUDDY_KEYSTORE_PASSWORD")
+                keyAlias = signingValue("STUDYBUDDY_KEY_ALIAS")
+                keyPassword = signingValue("STUDYBUDDY_KEY_PASSWORD")
+            }
         }
     }
 
     buildTypes {
-        debug {
-            signingConfig = signingConfigs.getByName("studybuddy")
-        }
         release {
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-            signingConfig = signingConfigs.getByName("studybuddy")
+            signingConfig = if (hasReleaseSigning) {
+                signingConfigs.getByName("release")
+            } else {
+                signingConfigs.getByName("debug")
+            }
         }
     }
     compileOptions {
@@ -70,12 +88,13 @@ dependencies {
     implementation(libs.splashscreen)
     implementation(libs.coroutines.android)
     implementation(libs.work.runtime)
-    implementation("com.google.android.gms:play-services-ads:24.2.0")
+    implementation(libs.play.services.ads)
 
     implementation(libs.lifecycle.viewmodel)
     implementation(libs.lifecycle.livedata)
     implementation(libs.lifecycle.livedata.ktx)
     implementation(libs.lifecycle.process)
+    implementation(libs.lifecycle.runtime.ktx)
 
     implementation(libs.room.runtime)
     implementation(libs.room.ktx)

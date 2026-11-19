@@ -34,36 +34,75 @@
             android:paddingHorizontal="24dp"
             android:paddingVertical="16dp">
 
-            <!-- Offline & Local Sync indicator -->
-            <LinearLayout
-                android:id="@+id/layout_focus_sync_status"
-                android:layout_width="wrap_content"
+            <!-- Tarea vinculada a la sesión -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/card_linked_task"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
-                android:background="@drawable/bg_category_badge"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:paddingHorizontal="10dp"
-                android:paddingVertical="4dp">
+                android:clickable="true"
+                android:focusable="true"
+                app:cardBackgroundColor="?attr/colorPrimaryContainer"
+                app:cardElevation="0dp">
 
-                <ImageView
-                    android:id="@+id/icon_focus_sync"
-                    android:layout_width="14dp"
-                    android:layout_height="14dp"
-                    android:contentDescription="@null"
-                    android:src="@drawable/ic_cloud_done"
-                    app:tint="?attr/colorPrimary" />
-
-                <TextView
-                    android:id="@+id/text_focus_sync"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="6dp"
-                    android:text="@string/sync_status_online"
-                    android:textColor="?attr/colorPrimary"
-                    android:textSize="11sp"
-                    android:textStyle="bold" />
-            </LinearLayout>
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:padding="14dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="📌"
+                        android:textSize="24sp"
+                        tools:ignore="HardcodedText" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/focus_linked_task_label"
+                            android:textColor="?attr/colorOnPrimaryContainer"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:id="@+id/text_linked_task"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ellipsize="end"
+                            android:maxLines="1"
+                            android:text="@string/focus_linked_task_none"
+                            android:textColor="?attr/colorOnPrimaryContainer"
+                            android:textSize="15sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/text_linked_task_minutes"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="?attr/colorOnPrimaryContainer"
+                            android:textSize="12sp"
+                            android:visibility="gone"
+                            tools:text="⏱️ 50 min de enfoque" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/focus_linked_task_change"
+                        android:textColor="?attr/colorPrimary"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
 
             <!-- Presets ChipGroup -->
             <HorizontalScrollView
@@ -107,6 +146,58 @@
                         android:layout_height="wrap_content"
                         android:text="@string/focus_preset_custom" />
 
+                </com.google.android.material.chip.ChipGroup>
+            </HorizontalScrollView>
+
+            <!-- Sonido ambiental -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/focus_ambient_title"
+                android:textColor="?attr/colorOnSurfaceVariant"
+                android:textSize="12sp" />
+
+            <HorizontalScrollView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:scrollbars="none">
+
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/chip_group_ambient"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:selectionRequired="true"
+                    app:singleLine="true"
+                    app:singleSelection="true">
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip_ambient_none"
+                        style="@style/Widget.Material3.Chip.Filter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/focus_ambient_none" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip_ambient_rain"
+                        style="@style/Widget.Material3.Chip.Filter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/focus_ambient_rain" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip_ambient_white"
+                        style="@style/Widget.Material3.Chip.Filter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/focus_ambient_white" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip_ambient_brown"
+                        style="@style/Widget.Material3.Chip.Filter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/focus_ambient_brown" />
                 </com.google.android.material.chip.ChipGroup>
             </HorizontalScrollView>
 

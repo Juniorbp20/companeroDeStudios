@@ -19,7 +19,10 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.studybuddy.AddTaskActivity
 import com.example.studybuddy.FocusActivity
+import com.example.studybuddy.AchievementsActivity
 import com.example.studybuddy.R
+import com.example.studybuddy.game.GameHeroBinder
+import com.example.studybuddy.game.GamificationStore
 import com.example.studybuddy.TaskDetailActivity
 import com.example.studybuddy.adapter.UpcomingTaskAdapter
 import com.example.studybuddy.databinding.FragmentDashboardSummaryBinding
@@ -70,6 +73,7 @@ class DashboardSummaryFragment : Fragment(), UpcomingTaskAdapter.OnUpcomingTaskC
         taskViewModel = ViewModelProvider(requireActivity())[TaskViewModel::class.java]
 
         setupHeader()
+        setupGameHero()
         setupDailyGoalCard()
         setupRechartsDashboard()
         setupQuickStartCard()
@@ -80,9 +84,24 @@ class DashboardSummaryFragment : Fragment(), UpcomingTaskAdapter.OnUpcomingTaskC
 
     override fun onResume() {
         super.onResume()
+        refreshGameHero()
         updateFocusStats()
         updateDailyGoalDisplay()
         sendStudyDataToRecharts()
+    }
+
+    private fun setupGameHero() {
+        binding.gameHero.root.setOnClickListener {
+            startActivity(Intent(requireContext(), AchievementsActivity::class.java))
+        }
+        refreshGameHero()
+    }
+
+    /** Actualiza nivel, XP y racha; también se llama tras cada evento de juego. */
+    fun refreshGameHero() {
+        val context = context ?: return
+        if (_binding == null) return
+        GameHeroBinder.bind(binding.gameHero, GamificationStore.getStats(context), showCta = true)
     }
 
     private fun setupDailyGoalCard() {
@@ -356,11 +375,7 @@ class DashboardSummaryFragment : Fragment(), UpcomingTaskAdapter.OnUpcomingTaskC
     }
 
     override fun onTaskCompleted(task: Task, isCompleted: Boolean) {
-        val updated = task.copy(
-            isCompleted = isCompleted,
-            completedAt = if (isCompleted) System.currentTimeMillis() else 0L
-        )
-        taskViewModel.update(updated)
+        taskViewModel.setCompleted(task, isCompleted)
     }
 
     override fun onDestroyView() {

@@ -21,49 +21,6 @@
             app:title="@string/dashboard_title"
             app:titleTextAppearance="@style/TextAppearance.Material3.TitleLarge" />
 
-        <!-- Offline & Sync Status Banner -->
-        <LinearLayout
-            android:id="@+id/layout_sync_banner"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="?attr/colorSurfaceContainerLow"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:paddingHorizontal="16dp"
-            android:paddingVertical="6dp"
-            android:visibility="gone"
-            tools:visibility="visible">
-
-            <ImageView
-                android:id="@+id/icon_sync_banner"
-                android:layout_width="16dp"
-                android:layout_height="16dp"
-                android:contentDescription="@null"
-                android:src="@drawable/ic_cloud_off"
-                app:tint="?attr/colorError" />
-
-            <TextView
-                android:id="@+id/text_sync_banner"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_weight="1"
-                android:text="@string/sync_offline_mode_banner"
-                android:textSize="12sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/btn_sync_banner_action"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingHorizontal="8dp"
-                android:paddingVertical="4dp"
-                android:text="@string/sync_now"
-                android:textColor="?attr/colorPrimary"
-                android:textSize="11sp"
-                android:textStyle="bold" />
-        </LinearLayout>
-
         <!-- Tasks filter and search header (visible only on Tasks tab) -->
         <LinearLayout
             android:id="@+id/layout_tasks_header"

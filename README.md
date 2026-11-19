@@ -6,11 +6,11 @@ Aplicación Android de gestión de tareas y hábitos de estudio, construida con 
 
 - **Gestión de tareas** con título, descripción, fecha/hora, categoría y prioridad (Alta, Media, Baja).
 - **Categorías personalizables**: 4 por defecto (General, Estudio, Trabajo, Personal) con icono y color, más categorías propias creadas desde la app (8 iconos, paleta de colores) y borrado con reasignación automática de tareas a General.
-- **Tareas recurrentes** (diarias/semanales) que se reprograman automáticamente al completarse.
+- **Tareas recurrentes** (diarias/semanales): al completarse se crea la siguiente ocurrencia (con sus subtareas) y se programa su recordatorio.
 - **Subtareas** con cascada al eliminar la tarea padre.
 - **Etiquetas** (tags) con filtro por chips.
 - **Búsqueda** y filtros combinados por categoría y prioridad.
-- **Recordatorios** con notificaciones y canales dedicados (requiere permiso de notificaciones y alarmas exactas).
+- **Recordatorios** con notificaciones y canales dedicados (requiere permiso de notificaciones y alarmas exactas). Se reprograman tras reiniciar el dispositivo, actualizar la app o cambiar la hora/zona horaria.
 - **Resumen diario de tareas vencidas** vía WorkManager.
 - **Calendario mensual** con indicador visual de días con tareas pendientes.
 - **Modo enfoque (Pomodoro)** con duración configurable (Enfoque y Descanso en minutos, persistida), vibración y registro de sesiones.
@@ -79,10 +79,25 @@ Los tests de migración validan las rutas v1→v4, v2→v4 y v3→v4 usando los 
 ### Publicar una versión
 
 1. Sube el `versionCode` y `versionName` en `app/build.gradle.kts`.
-2. Crea y sube un tag con el mismo número: `git tag v5 && git push origin v5`.
+2. Crea y sube un tag con el **versionCode**: `git tag v9 && git push origin v9` (la app toma el primer número del tag, así que `v9.0` también vale).
 3. El CD genera la release; la app la detecta en "Buscar actualizaciones".
 
-El APK se firma con el keystore versionado en `keystore/studybuddy.jks` (alias/contraseña: `studybuddy`), el mismo que usan los builds de debug, por lo que la actualización se instala sobre cualquier instalación previa.
+### Firma del APK de release
+
+El keystore **no se versiona** (`*.jks` y `keystore/` están en `.gitignore`). La configuración de firma se lee de variables de entorno o de `local.properties`:
+
+| Clave | Descripción |
+|---|---|
+| `STUDYBUDDY_KEYSTORE_FILE` | Ruta al `.jks` (relativa a la raíz del proyecto o absoluta) |
+| `STUDYBUDDY_KEYSTORE_PASSWORD` | Contraseña del almacén |
+| `STUDYBUDDY_KEY_ALIAS` | Alias de la clave |
+| `STUDYBUDDY_KEY_PASSWORD` | Contraseña de la clave |
+
+Si faltan, `assembleRelease` se firma con la clave de debug (solo para pruebas locales). Los builds de debug usan siempre la clave de debug estándar de Android.
+
+En GitHub Actions, el workflow de CD requiere estos *secrets* del repositorio: `STUDYBUDDY_KEYSTORE_BASE64` (el `.jks` en base64: `base64 -w0 studybuddy.jks`), `STUDYBUDDY_KEYSTORE_PASSWORD`, `STUDYBUDDY_KEY_ALIAS` y `STUDYBUDDY_KEY_PASSWORD`. Sin ellos, el CD falla en lugar de publicar un APK sin la firma oficial.
+
+> **Nota de seguridad:** el keystore y su contraseña estuvieron versionados en el historial de git. Para una protección completa conviene generar un keystore nuevo (las instalaciones existentes tendrían que desinstalar la app una vez) o, como mínimo, cambiar las contraseñas y limpiar el historial.
 
 ## Licencia
 

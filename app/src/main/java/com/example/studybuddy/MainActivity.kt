@@ -37,6 +37,7 @@ import com.example.studybuddy.model.Task
 import com.example.studybuddy.model.categoryIconRes
 import com.example.studybuddy.model.displayName
 import com.example.studybuddy.notification.AlarmManagerHelper
+import com.example.studybuddy.game.GameUi
 import com.example.studybuddy.notification.DailyOverdueWorker
 import com.example.studybuddy.notification.NotificationHelper
 import com.example.studybuddy.ui.DashboardSummaryFragment
@@ -44,15 +45,12 @@ import com.example.studybuddy.ui.TaskViewModel
 import com.example.studybuddy.util.BackupHelper
 import com.example.studybuddy.util.ExportImportHelper
 import com.example.studybuddy.util.StudyGoalManager
-import com.example.studybuddy.util.SyncManager
-import com.example.studybuddy.util.SyncState
 import com.example.studybuddy.util.UpdateChecker
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.chip.Chip
 import com.google.android.material.color.MaterialColors
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
-import com.google.android.material.color.DynamicColors
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -112,8 +110,14 @@ class MainActivity : AppCompatActivity(), TaskAdapter.OnItemClickListener,
         registerForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
             if (uri != null) {
                 val json = ExportImportHelper.readFromUri(this, uri)
-                if (json != null) {
-                    val result = ExportImportHelper.importFromJson(json)
+                val result = json?.let {
+                    try {
+                        ExportImportHelper.importFromJson(it)
+                    } catch (e: org.json.JSONException) {
+                        null
+                    }
+                }
+                if (result != null) {
                     lifecycleScope.launch {
                         val idMap = mutableMapOf<Int, Int>()
                         result.categories.forEach { category ->
@@ -123,15 +127,14 @@ class MainActivity : AppCompatActivity(), TaskAdapter.OnItemClickListener,
                             val mapped = idMap[task.categoryId]?.let {
                                 task.copy(categoryId = it)
                             } ?: task
-                            taskViewModel.insert(mapped) { id ->
-                                if (mapped.reminderEnabled &&
-                                    mapped.dueDate > System.currentTimeMillis()
-                                ) {
-                                    alarmHelper.setAlarm(
-                                        id.toInt(), mapped.title, mapped.description,
-                                        mapped.dueDate, mapped.repeatInterval
-                                    )
-                                }
+                            val id = taskViewModel.insertNow(mapped)
+                            if (mapped.reminderEnabled && !mapped.isCompleted &&
+                                mapped.dueDate > System.currentTimeMillis()
+                            ) {
+                                alarmHelper.setAlarm(
+                                    id.toInt(), mapped.title, mapped.description,
+                                    mapped.dueDate, mapped.repeatInterval
+                                )
                             }
                         }
                         Toast.makeText(
@@ -148,7 +151,6 @@ class MainActivity : AppCompatActivity(), TaskAdapter.OnItemClickListener,
 
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
-        DynamicColors.applyToActivityIfAvailable(this)
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -186,79 +188,19 @@ class MainActivity : AppCompatActivity(), TaskAdapter.OnItemClickListener,
         observeTasks()
         requestPermissions()
         checkDailyGoalReminder()
-        setupSyncMonitoring()
-    }
-
-    private fun setupSyncMonitoring() {
-        val syncManager = SyncManager.getInstance(this)
-        binding.btnSyncBannerAction.setOnClickListener {
-            lifecycleScope.launch {
-                val ok = syncManager.performSync(this@MainActivity, force = true)
-                if (ok) {
-                    Toast.makeText(this@MainActivity, R.string.sync_status_online, Toast.LENGTH_SHORT).show()
-                }
-            }
-        }
-
-        lifecycleScope.launch {
-            syncManager.syncState.collect { state ->
-                updateSyncBanner(state)
-            }
-        }
-
-        lifecycleScope.launch {
-            syncManager.syncEvents.collect { event ->
-                when (event) {
-                    is SyncManager.SyncEvent.NetworkRestored -> {
-                        Snackbar.make(binding.root, R.string.sync_network_restored, Snackbar.LENGTH_SHORT).show()
-                    }
-                    is SyncManager.SyncEvent.SyncCompleted -> {
-                        if (event.syncedCount > 0) {
-                            Toast.makeText(
-                                this@MainActivity,
-                                getString(R.string.sync_completed_toast, event.syncedCount),
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        }
-                    }
-                    else -> {}
-                }
-            }
+        cancelLegacySyncWork()
+        GameUi.observeEvents(this) {
+            (supportFragmentManager.findFragmentById(R.id.fragment_container) as? DashboardSummaryFragment)
+                ?.refreshGameHero()
         }
     }
 
-    private fun updateSyncBanner(state: SyncState) {
-        if (!state.isOnline) {
-            binding.layoutSyncBanner.visibility = View.VISIBLE
-            binding.iconSyncBanner.setImageResource(R.drawable.ic_cloud_off)
-            binding.iconSyncBanner.imageTintList = ColorStateList.valueOf(
-                ContextCompat.getColor(this, android.R.color.holo_orange_dark)
-            )
-            binding.textSyncBanner.text = if (state.pendingCount > 0) {
-                getString(R.string.sync_status_offline) + " (" + getString(R.string.sync_pending_count, state.pendingCount) + ")"
-            } else {
-                getString(R.string.sync_status_offline)
-            }
-            binding.btnSyncBannerAction.visibility = View.GONE
-        } else if (state.isSyncing) {
-            binding.layoutSyncBanner.visibility = View.VISIBLE
-            binding.iconSyncBanner.setImageResource(R.drawable.ic_sync)
-            binding.iconSyncBanner.imageTintList = ColorStateList.valueOf(
-                MaterialColors.getColor(binding.root, com.google.android.material.R.attr.colorPrimary)
-            )
-            binding.textSyncBanner.text = getString(R.string.sync_status_syncing)
-            binding.btnSyncBannerAction.visibility = View.GONE
-        } else if (state.pendingCount > 0) {
-            binding.layoutSyncBanner.visibility = View.VISIBLE
-            binding.iconSyncBanner.setImageResource(R.drawable.ic_cloud_done)
-            binding.iconSyncBanner.imageTintList = ColorStateList.valueOf(
-                ContextCompat.getColor(this, android.R.color.holo_blue_dark)
-            )
-            binding.textSyncBanner.text = getString(R.string.sync_pending_count, state.pendingCount)
-            binding.btnSyncBannerAction.visibility = View.VISIBLE
-        } else {
-            binding.layoutSyncBanner.visibility = View.GONE
-        }
+    /** La antigua "sincronización" era simulada; se cancela el trabajo periódico heredado. */
+    private fun cancelLegacySyncWork() {
+        val wm = WorkManager.getInstance(this)
+        wm.cancelUniqueWork("studybuddy_sync_work_periodic")
+        wm.cancelUniqueWork("studybuddy_sync_work_one_time")
+        getSharedPreferences("studybuddy_sync_queue", MODE_PRIVATE).edit().clear().apply()
     }
 
     private fun scheduleOverdueWorker() {
@@ -500,12 +442,12 @@ class MainActivity : AppCompatActivity(), TaskAdapter.OnItemClickListener,
                     startActivity(Intent(this, FocusActivity::class.java))
                     false
                 }
-                R.id.nav_calendar -> {
-                    startActivity(Intent(this, CalendarActivity::class.java))
+                R.id.nav_agenda -> {
+                    startActivity(Intent(this, AgendaActivity::class.java))
                     false
                 }
-                R.id.nav_statistics -> {
-                    startActivity(Intent(this, StatisticsActivity::class.java))
+                R.id.nav_subjects -> {
+                    startActivity(Intent(this, SubjectsActivity::class.java))
                     false
                 }
                 else -> false
@@ -616,15 +558,7 @@ class MainActivity : AppCompatActivity(), TaskAdapter.OnItemClickListener,
     }
 
     override fun onTaskStatusChanged(task: Task, isCompleted: Boolean) {
-        taskViewModel.update(
-            task.copy(
-                isCompleted = isCompleted,
-                completedAt = if (isCompleted) System.currentTimeMillis() else 0L
-            )
-        )
-        if (isCompleted) {
-            alarmHelper.cancelAlarm(task.id)
-        }
+        taskViewModel.setCompleted(task, isCompleted)
     }
 
     override fun onTaskDelete(task: Task) {
@@ -636,21 +570,15 @@ class MainActivity : AppCompatActivity(), TaskAdapter.OnItemClickListener,
     }
 
     private fun deleteTask(task: Task) {
-        taskViewModel.delete(task)
-        alarmHelper.cancelAlarm(task.id)
-        Snackbar.make(
-            binding.root,
-            getString(R.string.task_deleted),
-            Snackbar.LENGTH_LONG
-        ).setAction(getString(R.string.undo)) {
-            taskViewModel.insert(task) { id ->
-                if (task.reminderEnabled && task.dueDate > System.currentTimeMillis()) {
-                    alarmHelper.setAlarm(
-                        id.toInt(), task.title, task.description, task.dueDate, task.repeatInterval
-                    )
-                }
-            }
-        }.show()
+        taskViewModel.deleteWithUndo(task) { subtasks ->
+            Snackbar.make(
+                binding.root,
+                getString(R.string.task_deleted),
+                Snackbar.LENGTH_LONG
+            ).setAction(getString(R.string.undo)) {
+                taskViewModel.restore(task, subtasks)
+            }.show()
+        }
     }
 
     private fun checkForUpdates() {
@@ -919,84 +847,6 @@ class MainActivity : AppCompatActivity(), TaskAdapter.OnItemClickListener,
         sheetView.findViewById<View>(R.id.menu_item_about)?.setOnClickListener {
             dialog.dismiss()
             showAboutDialog()
-        }
-
-        // Sync & Network Actions & Display
-        val syncTitle = sheetView.findViewById<TextView>(R.id.text_sync_status_title)
-        val syncSubtitle = sheetView.findViewById<TextView>(R.id.text_sync_status_subtitle)
-        val syncIcon = sheetView.findViewById<android.widget.ImageView>(R.id.img_sync_icon)
-        val btnSyncNow = sheetView.findViewById<com.google.android.material.button.MaterialButton>(R.id.btn_sync_now)
-
-        fun updateSheetSyncUI(state: SyncState) {
-            if (!state.isOnline) {
-                syncTitle?.setText(R.string.sync_status_offline)
-                syncSubtitle?.text = if (state.pendingCount > 0) {
-                    getString(R.string.sync_pending_count, state.pendingCount)
-                } else {
-                    getString(R.string.sync_offline_mode_banner)
-                }
-                syncIcon?.setImageResource(R.drawable.ic_cloud_off)
-                syncIcon?.imageTintList = ColorStateList.valueOf(
-                    ContextCompat.getColor(this, android.R.color.holo_orange_dark)
-                )
-                btnSyncNow?.isEnabled = false
-            } else if (state.isSyncing) {
-                syncTitle?.setText(R.string.sync_status_syncing)
-                syncSubtitle?.text = getString(R.string.sync_pending_count, state.pendingCount)
-                syncIcon?.setImageResource(R.drawable.ic_sync)
-                syncIcon?.imageTintList = ColorStateList.valueOf(
-                    MaterialColors.getColor(binding.root, com.google.android.material.R.attr.colorPrimary)
-                )
-                btnSyncNow?.isEnabled = false
-            } else {
-                syncTitle?.setText(R.string.sync_status_online)
-                val lastSync = state.lastSyncMillis
-                syncSubtitle?.text = if (lastSync > 0) {
-                    val formatted = SimpleDateFormat("HH:mm · dd MMM", Locale.getDefault()).format(Date(lastSync))
-                    getString(R.string.sync_last_time, formatted)
-                } else {
-                    getString(R.string.sync_just_now)
-                }
-                syncIcon?.setImageResource(R.drawable.ic_cloud_done)
-                syncIcon?.imageTintList = ColorStateList.valueOf(
-                    ContextCompat.getColor(this, android.R.color.holo_green_dark)
-                )
-                btnSyncNow?.isEnabled = true
-            }
-        }
-
-        updateSheetSyncUI(SyncManager.getInstance(this).syncState.value)
-
-        btnSyncNow?.setOnClickListener {
-            lifecycleScope.launch {
-                btnSyncNow.isEnabled = false
-                syncTitle?.setText(R.string.sync_status_syncing)
-                val ok = SyncManager.getInstance(this@MainActivity).performSync(this@MainActivity, force = true)
-                updateSheetSyncUI(SyncManager.getInstance(this@MainActivity).syncState.value)
-                Toast.makeText(
-                    this@MainActivity,
-                    if (ok) R.string.sync_completed_toast else R.string.sync_status_offline,
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
-        }
-
-        sheetView.findViewById<View>(R.id.menu_item_sync)?.setOnClickListener {
-            val isOnline = SyncManager.getInstance(this).syncState.value.isOnline
-            MaterialAlertDialogBuilder(this)
-                .setTitle(R.string.sync_title)
-                .setIcon(if (isOnline) R.drawable.ic_cloud_done else R.drawable.ic_cloud_off)
-                .setMessage(
-                    (if (isOnline) getString(R.string.sync_status_online) else getString(R.string.sync_status_offline)) +
-                    "\n\n" + getString(R.string.sync_offline_detail)
-                )
-                .setPositiveButton(R.string.ok, null)
-                .setNeutralButton(R.string.sync_now) { _, _ ->
-                    lifecycleScope.launch {
-                        SyncManager.getInstance(this@MainActivity).performSync(this@MainActivity, force = true)
-                    }
-                }
-                .show()
         }
 
         dialog.show()

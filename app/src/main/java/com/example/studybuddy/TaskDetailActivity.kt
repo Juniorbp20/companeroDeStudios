@@ -17,6 +17,7 @@ import com.example.studybuddy.model.displayName
 import com.example.studybuddy.notification.AlarmManagerHelper
 import com.example.studybuddy.ui.TaskViewModel
 import com.example.studybuddy.util.DateUtils
+import com.example.studybuddy.util.FocusSessionStore
 
 class TaskDetailActivity : AppCompatActivity() {
 
@@ -51,14 +52,8 @@ class TaskDetailActivity : AppCompatActivity() {
 
         binding.checkboxComplete.setOnCheckedChangeListener { _, isChecked ->
             taskViewModel.allTasks.value?.firstOrNull { it.id == taskId }?.let { task ->
-                taskViewModel.update(
-                    task.copy(
-                        isCompleted = isChecked,
-                        completedAt = if (isChecked) System.currentTimeMillis() else 0L
-                    )
-                )
-                if (isChecked) {
-                    AlarmManagerHelper(this).cancelAlarm(taskId)
+                if (task.isCompleted != isChecked) {
+                    taskViewModel.setCompleted(task, isChecked)
                 }
             }
         }
@@ -101,6 +96,9 @@ class TaskDetailActivity : AppCompatActivity() {
             renderCategory(task)
             binding.textPriority.text = priorityLabel(task.priority)
             binding.textTags.text = task.tags.ifBlank { "Sin etiquetas" }
+            val focusMinutes = FocusSessionStore.taskMinutes(this, task.id)
+            binding.textFocusMinutes.isVisible = focusMinutes > 0
+            binding.textFocusMinutes.text = getString(R.string.focus_task_minutes, focusMinutes)
             binding.checkboxComplete.isChecked = task.isCompleted
             binding.textReminder.text = if (task.reminderEnabled) "Recordatorio activado" else "Sin recordatorio"
         }
