@@ -94,6 +94,7 @@ dependencies {
     implementation(libs.lifecycle.livedata)
     implementation(libs.lifecycle.livedata.ktx)
     implementation(libs.lifecycle.process)
+    implementation(libs.lifecycle.runtime.ktx)
 
     implementation(libs.room.runtime)
     implementation(libs.room.ktx)

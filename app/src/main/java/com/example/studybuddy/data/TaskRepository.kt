@@ -2,10 +2,12 @@ package com.example.studybuddy.data
 
 import android.content.Context
 import androidx.room.withTransaction
+import com.example.studybuddy.game.GamificationStore
 import com.example.studybuddy.model.AppDatabase
 import com.example.studybuddy.model.CategoryDao
 import com.example.studybuddy.model.CategoryEntity
 import com.example.studybuddy.model.DayCount
+import com.example.studybuddy.model.Priority
 import com.example.studybuddy.model.RepeatInterval
 import com.example.studybuddy.model.SubTask
 import com.example.studybuddy.model.SubTaskDao
@@ -137,6 +139,7 @@ class TaskRepository(private val context: Context) {
             return@withTransaction null
         }
         alarmHelper.cancelAlarm(current.id)
+        GamificationStore.recordTaskCompleted(context, current.id, current.priority == Priority.HIGH, now)
         val next = RecurrenceUtils.nextOccurrence(current, now) ?: return@withTransaction null
         val nextId = taskDao.insert(next).toInt()
         subTaskDao.getSubtasksForTaskOnce(current.id).forEach {

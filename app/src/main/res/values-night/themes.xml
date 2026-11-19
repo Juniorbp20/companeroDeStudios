@@ -1,35 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <style name="Theme.StudyBuddy" parent="Theme.Material3.DayNight.NoActionBar">
-        <item name="colorPrimary">#818CF8</item>
-        <item name="colorOnPrimary">#1E1B4B</item>
-        <item name="colorPrimaryContainer">#312E81</item>
-        <item name="colorOnPrimaryContainer">#E0E7FF</item>
-        <item name="colorSecondary">#38BDF8</item>
-        <item name="colorOnSecondary">#082F49</item>
-        <item name="colorSecondaryContainer">#0369A1</item>
-        <item name="colorOnSecondaryContainer">#E0F2FE</item>
-        <item name="colorTertiary">#FBBF24</item>
-        <item name="colorOnTertiary">#451A03</item>
-        <item name="colorTertiaryContainer">#78350F</item>
-        <item name="colorOnTertiaryContainer">#FEF3C7</item>
-        <item name="android:colorBackground">#0F172A</item>
-        <item name="colorOnBackground">#F8FAFC</item>
-        <item name="colorSurface">#1E293B</item>
-        <item name="colorOnSurface">#F8FAFC</item>
-        <item name="colorSurfaceVariant">#334155</item>
-        <item name="colorOnSurfaceVariant">#CBD5E1</item>
-        <item name="colorOutline">#475569</item>
-        <item name="colorError">#F87171</item>
-        <item name="colorOnError">#450A0A</item>
-        <item name="colorErrorContainer">#7F1D1D</item>
-        <item name="colorOnErrorContainer">#FEE2E2</item>
-        <item name="android:statusBarColor">#0F172A</item>
+    <!-- Los colores vienen de values-night/colors.xml; solo cambia la barra de estado. -->
+    <style name="Theme.StudyBuddy" parent="Base.Theme.StudyBuddy">
         <item name="android:windowLightStatusBar">false</item>
-    </style>
-
-    <style name="Theme.StudyBuddy.Starting" parent="Theme.SplashScreen">
-        <item name="windowSplashScreenBackground">#0F172A</item>
-        <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_launcher</item>
-        <item name="postSplashScreenTheme">@style/Theme.StudyBuddy</item>
     </style>
 </resources>

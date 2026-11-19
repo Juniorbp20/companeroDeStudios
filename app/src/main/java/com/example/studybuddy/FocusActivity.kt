@@ -20,6 +20,7 @@ import androidx.lifecycle.lifecycleScope
 import com.example.studybuddy.databinding.ActivityFocusBinding
 import com.example.studybuddy.databinding.DialogPomodoroConfigBinding
 import com.example.studybuddy.notification.FocusAlarmHelper
+import com.example.studybuddy.game.GameUi
 import com.example.studybuddy.notification.FocusAlarmReceiver
 import com.example.studybuddy.notification.NotificationHelper
 import com.example.studybuddy.util.FocusSessionStore
@@ -103,6 +104,7 @@ class FocusActivity : AppCompatActivity() {
         }
 
         requestNotificationPermissionIfNeeded()
+        GameUi.observeEvents(this)
     }
 
 

@@ -37,6 +37,7 @@ import com.example.studybuddy.model.Task
 import com.example.studybuddy.model.categoryIconRes
 import com.example.studybuddy.model.displayName
 import com.example.studybuddy.notification.AlarmManagerHelper
+import com.example.studybuddy.game.GameUi
 import com.example.studybuddy.notification.DailyOverdueWorker
 import com.example.studybuddy.notification.NotificationHelper
 import com.example.studybuddy.ui.DashboardSummaryFragment
@@ -50,7 +51,6 @@ import com.google.android.material.chip.Chip
 import com.google.android.material.color.MaterialColors
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
-import com.google.android.material.color.DynamicColors
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -151,7 +151,6 @@ class MainActivity : AppCompatActivity(), TaskAdapter.OnItemClickListener,
 
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
-        DynamicColors.applyToActivityIfAvailable(this)
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -190,6 +189,10 @@ class MainActivity : AppCompatActivity(), TaskAdapter.OnItemClickListener,
         requestPermissions()
         checkDailyGoalReminder()
         cancelLegacySyncWork()
+        GameUi.observeEvents(this) {
+            (supportFragmentManager.findFragmentById(R.id.fragment_container) as? DashboardSummaryFragment)
+                ?.refreshGameHero()
+        }
     }
 
     /** La antigua "sincronización" era simulada; se cancela el trabajo periódico heredado. */

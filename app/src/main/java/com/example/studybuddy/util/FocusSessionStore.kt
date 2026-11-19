@@ -1,6 +1,7 @@
 package com.example.studybuddy.util
 
 import android.content.Context
+import com.example.studybuddy.game.GamificationStore
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -20,7 +21,12 @@ object FocusSessionStore {
         prefs.edit()
             .putInt(KEY_TOTAL, prefs.getInt(KEY_TOTAL, 0) + 1)
             .putInt(KEY_DAILY_PREFIX + today, prefs.getInt(KEY_DAILY_PREFIX + today, 0) + 1)
-            .apply()
+            .commit()
+        GamificationStore.recordFocusSession(
+            context,
+            getWorkMinutes(context),
+            StudyGoalManager.isGoalMetToday(context)
+        )
 
     }
 

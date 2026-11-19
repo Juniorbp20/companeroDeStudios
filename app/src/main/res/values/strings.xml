@@ -268,4 +268,70 @@
         <item>S</item>
         <item>D</item>
     </string-array>
+
+    <!-- Gamificación -->
+    <string name="game_level">Nivel %1$d</string>
+    <string name="game_level_rank">Nivel %1$d · %2$s</string>
+    <string name="game_xp_progress">%1$d / %2$d XP</string>
+    <string name="game_xp_total">%1$d XP totales</string>
+    <string name="game_streak_days">🔥 %1$d días</string>
+    <string name="game_streak_label">Racha</string>
+    <string name="game_best_streak">Mejor racha: %1$d días</string>
+    <string name="game_streak_zero">¡Empieza tu racha hoy!</string>
+    <string name="game_view_achievements">Ver logros</string>
+    <string name="game_achievements_title">Logros</string>
+    <string name="game_achievements_count">%1$d de %2$d desbloqueados</string>
+    <string name="game_achievement_progress">%1$d / %2$d</string>
+    <string name="game_achievement_reward">+%1$d XP</string>
+    <string name="game_unlocked">¡Desbloqueado!</string>
+    <string name="game_xp_gained">+%1$d XP</string>
+    <string name="game_level_up_title">¡Subiste de nivel!</string>
+    <string name="game_level_up_message">Ahora eres nivel %1$d: %2$s. ¡Sigue así!</string>
+    <string name="game_achievement_unlocked_title">¡Logro desbloqueado!</string>
+    <string name="game_awesome">¡Genial!</string>
+    <string name="game_stat_tasks">Tareas</string>
+    <string name="game_stat_focus">Sesiones</string>
+    <string name="game_stat_hours">Horas</string>
+    <string name="rank_0">Novato</string>
+    <string name="rank_1">Aprendiz</string>
+    <string name="rank_2">Estudiante dedicado</string>
+    <string name="rank_3">Erudito</string>
+    <string name="rank_4">Maestro</string>
+    <string name="rank_5">Leyenda</string>
+    <string name="ach_first_task_title">Primer paso</string>
+    <string name="ach_first_task_desc">Completa tu primera tarea</string>
+    <string name="ach_tasks_10_title">En marcha</string>
+    <string name="ach_tasks_10_desc">Completa 10 tareas</string>
+    <string name="ach_tasks_50_title">Imparable</string>
+    <string name="ach_tasks_50_desc">Completa 50 tareas</string>
+    <string name="ach_tasks_100_title">Centurión</string>
+    <string name="ach_tasks_100_desc">Completa 100 tareas</string>
+    <string name="ach_first_focus_title">Concentración</string>
+    <string name="ach_first_focus_desc">Termina tu primera sesión de enfoque</string>
+    <string name="ach_focus_25_title">Mente de acero</string>
+    <string name="ach_focus_25_desc">Termina 25 sesiones de enfoque</string>
+    <string name="ach_focus_hours_10_title">Ratón de biblioteca</string>
+    <string name="ach_focus_hours_10_desc">Acumula 10 horas de enfoque</string>
+    <string name="ach_streak_3_title">En racha</string>
+    <string name="ach_streak_3_desc">Estudia 3 días seguidos</string>
+    <string name="ach_streak_7_title">Semana perfecta</string>
+    <string name="ach_streak_7_desc">Estudia 7 días seguidos</string>
+    <string name="ach_streak_30_title">Volcán</string>
+    <string name="ach_streak_30_desc">Estudia 30 días seguidos</string>
+    <string name="ach_goal_1_title">Meta cumplida</string>
+    <string name="ach_goal_1_desc">Cumple tu meta diaria de estudio</string>
+    <string name="ach_goal_7_title">Constancia</string>
+    <string name="ach_goal_7_desc">Cumple tu meta diaria 7 días</string>
+    <string name="ach_level_5_title">Estrella</string>
+    <string name="ach_level_5_desc">Alcanza el nivel 5</string>
+    <string name="ach_level_10_title">Realeza</string>
+    <string name="ach_level_10_desc">Alcanza el nivel 10</string>
+    <string name="ach_early_bird_title">Madrugador</string>
+    <string name="ach_early_bird_desc">Completa una tarea antes de las 8:00</string>
+    <string name="ach_night_owl_title">Búho nocturno</string>
+    <string name="ach_night_owl_desc">Termina una sesión de enfoque después de las 22:00</string>
+    <string name="ach_first_exam_title">Preparado</string>
+    <string name="ach_first_exam_desc">Registra tu primer examen</string>
+    <string name="ach_notes_10_title">Apuntes al día</string>
+    <string name="ach_notes_10_desc">Escribe 10 notas</string>
 </resources>

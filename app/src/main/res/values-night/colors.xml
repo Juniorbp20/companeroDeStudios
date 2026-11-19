@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Paleta "Compañero" (tema oscuro) -->
+    <color name="md_primary">#B794FF</color>
+    <color name="md_on_primary">#2A0770</color>
+    <color name="md_primary_container">#4C1D95</color>
+    <color name="md_on_primary_container">#EDE4FF</color>
+    <color name="md_secondary">#FB7185</color>
+    <color name="md_on_secondary">#4C0519</color>
+    <color name="md_secondary_container">#881337</color>
+    <color name="md_on_secondary_container">#FFE1E7</color>
+    <color name="md_tertiary">#FCD34D</color>
+    <color name="md_on_tertiary">#451A03</color>
+    <color name="md_tertiary_container">#78350F</color>
+    <color name="md_on_tertiary_container">#FFF1C7</color>
+    <color name="md_background">#140F24</color>
+    <color name="md_on_background">#F3EEFF</color>
+    <color name="md_surface">#1E1733</color>
+    <color name="md_on_surface">#F3EEFF</color>
+    <color name="md_surface_variant">#2B2345</color>
+    <color name="md_on_surface_variant">#CFC6E4</color>
+    <color name="md_surface_container">#241C3B</color>
+    <color name="md_outline">#4A4066</color>
+    <color name="md_error">#FB7185</color>
+    <color name="md_on_error">#4C0519</color>
+    <color name="md_error_container">#881337</color>
+    <color name="md_on_error_container">#FFE1E7</color>
+
+    <color name="game_streak_container">#4A2410</color>
+    <color name="game_success_container">#0B3B2E</color>
+    <color name="game_info_container">#0B3049</color>
+    <color name="game_locked">#5E5578</color>
+</resources>

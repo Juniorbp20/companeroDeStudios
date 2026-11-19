@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="achievement_stroke_unlocked">2dp</dimen>
+    <dimen name="achievement_stroke_locked">1dp</dimen>
+</resources>

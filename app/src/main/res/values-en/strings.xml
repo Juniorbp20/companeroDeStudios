@@ -268,4 +268,70 @@
         <item>S</item>
         <item>S</item>
     </string-array>
+
+    <!-- Gamification -->
+    <string name="game_level">Level %1$d</string>
+    <string name="game_level_rank">Level %1$d · %2$s</string>
+    <string name="game_xp_progress">%1$d / %2$d XP</string>
+    <string name="game_xp_total">%1$d total XP</string>
+    <string name="game_streak_days">🔥 %1$d days</string>
+    <string name="game_streak_label">Streak</string>
+    <string name="game_best_streak">Best streak: %1$d days</string>
+    <string name="game_streak_zero">Start your streak today!</string>
+    <string name="game_view_achievements">View achievements</string>
+    <string name="game_achievements_title">Achievements</string>
+    <string name="game_achievements_count">%1$d of %2$d unlocked</string>
+    <string name="game_achievement_progress">%1$d / %2$d</string>
+    <string name="game_achievement_reward">+%1$d XP</string>
+    <string name="game_unlocked">Unlocked!</string>
+    <string name="game_xp_gained">+%1$d XP</string>
+    <string name="game_level_up_title">Level up!</string>
+    <string name="game_level_up_message">You are now level %1$d: %2$s. Keep it up!</string>
+    <string name="game_achievement_unlocked_title">Achievement unlocked!</string>
+    <string name="game_awesome">Awesome!</string>
+    <string name="game_stat_tasks">Tasks</string>
+    <string name="game_stat_focus">Sessions</string>
+    <string name="game_stat_hours">Hours</string>
+    <string name="rank_0">Rookie</string>
+    <string name="rank_1">Apprentice</string>
+    <string name="rank_2">Dedicated student</string>
+    <string name="rank_3">Scholar</string>
+    <string name="rank_4">Master</string>
+    <string name="rank_5">Legend</string>
+    <string name="ach_first_task_title">First step</string>
+    <string name="ach_first_task_desc">Complete your first task</string>
+    <string name="ach_tasks_10_title">On a roll</string>
+    <string name="ach_tasks_10_desc">Complete 10 tasks</string>
+    <string name="ach_tasks_50_title">Unstoppable</string>
+    <string name="ach_tasks_50_desc">Complete 50 tasks</string>
+    <string name="ach_tasks_100_title">Centurion</string>
+    <string name="ach_tasks_100_desc">Complete 100 tasks</string>
+    <string name="ach_first_focus_title">Focused</string>
+    <string name="ach_first_focus_desc">Finish your first focus session</string>
+    <string name="ach_focus_25_title">Mind of steel</string>
+    <string name="ach_focus_25_desc">Finish 25 focus sessions</string>
+    <string name="ach_focus_hours_10_title">Bookworm</string>
+    <string name="ach_focus_hours_10_desc">Accumulate 10 hours of focus</string>
+    <string name="ach_streak_3_title">On fire</string>
+    <string name="ach_streak_3_desc">Study 3 days in a row</string>
+    <string name="ach_streak_7_title">Perfect week</string>
+    <string name="ach_streak_7_desc">Study 7 days in a row</string>
+    <string name="ach_streak_30_title">Volcano</string>
+    <string name="ach_streak_30_desc">Study 30 days in a row</string>
+    <string name="ach_goal_1_title">Goal reached</string>
+    <string name="ach_goal_1_desc">Reach your daily study goal</string>
+    <string name="ach_goal_7_title">Consistency</string>
+    <string name="ach_goal_7_desc">Reach your daily goal on 7 days</string>
+    <string name="ach_level_5_title">Star</string>
+    <string name="ach_level_5_desc">Reach level 5</string>
+    <string name="ach_level_10_title">Royalty</string>
+    <string name="ach_level_10_desc">Reach level 10</string>
+    <string name="ach_early_bird_title">Early bird</string>
+    <string name="ach_early_bird_desc">Complete a task before 8:00</string>
+    <string name="ach_night_owl_title">Night owl</string>
+    <string name="ach_night_owl_desc">Finish a focus session after 22:00</string>
+    <string name="ach_first_exam_title">Prepared</string>
+    <string name="ach_first_exam_desc">Add your first exam</string>
+    <string name="ach_notes_10_title">Notes on point</string>
+    <string name="ach_notes_10_desc">Write 10 notes</string>
 </resources>
