@@ -442,12 +442,12 @@ class MainActivity : AppCompatActivity(), TaskAdapter.OnItemClickListener,
                     startActivity(Intent(this, FocusActivity::class.java))
                     false
                 }
-                R.id.nav_calendar -> {
-                    startActivity(Intent(this, CalendarActivity::class.java))
+                R.id.nav_agenda -> {
+                    startActivity(Intent(this, AgendaActivity::class.java))
                     false
                 }
-                R.id.nav_statistics -> {
-                    startActivity(Intent(this, StatisticsActivity::class.java))
+                R.id.nav_subjects -> {
+                    startActivity(Intent(this, SubjectsActivity::class.java))
                     false
                 }
                 else -> false

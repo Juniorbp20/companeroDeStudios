@@ -92,6 +92,14 @@
             android:exported="false"
             android:theme="@style/Theme.StudyBuddy" />
         <activity
+            android:name=".SubjectsActivity"
+            android:exported="false"
+            android:theme="@style/Theme.StudyBuddy" />
+        <activity
+            android:name=".SubjectDetailActivity"
+            android:exported="false"
+            android:theme="@style/Theme.StudyBuddy" />
+        <activity
             android:name=".AgendaActivity"
             android:exported="false"
             android:theme="@style/Theme.StudyBuddy" />

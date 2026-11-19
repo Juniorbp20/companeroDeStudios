@@ -14,7 +14,18 @@ object ServiceLocator {
         }
     }
 
+    @Volatile
+    private var subjectRepository: com.example.studybuddy.subjects.SubjectRepository? = null
+
+    fun getSubjectRepository(context: Context): com.example.studybuddy.subjects.SubjectRepository {
+        return subjectRepository ?: synchronized(this) {
+            subjectRepository ?: com.example.studybuddy.subjects.SubjectRepository(context.applicationContext)
+                .also { subjectRepository = it }
+        }
+    }
+
     fun clearForTests() {
         repository = null
+        subjectRepository = null
     }
 }

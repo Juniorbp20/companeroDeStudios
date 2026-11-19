@@ -8,8 +8,11 @@ import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 
 @Database(
-    entities = [Task::class, SubTask::class, CategoryEntity::class],
-    version = 4,
+    entities = [
+        Task::class, SubTask::class, CategoryEntity::class,
+        ClassSession::class, Exam::class, Note::class
+    ],
+    version = 5,
     exportSchema = true
 )
 abstract class AppDatabase : RoomDatabase() {
@@ -17,6 +20,7 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun taskDao(): TaskDao
     abstract fun subTaskDao(): SubTaskDao
     abstract fun categoryDao(): CategoryDao
+    abstract fun subjectDao(): SubjectDao
 
     companion object {
         private const val DB_NAME = "task_database"
@@ -132,6 +136,47 @@ abstract class AppDatabase : RoomDatabase() {
             }
         }
 
+        /** v5: horario de clases, exámenes y notas por asignatura (categoría). */
+        val MIGRATION_4_5 = object : Migration(4, 5) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                db.execSQL(
+                    "CREATE TABLE IF NOT EXISTS `class_sessions` (" +
+                        "`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
+                        "`category_id` INTEGER NOT NULL, `weekday` INTEGER NOT NULL, " +
+                        "`start_minutes` INTEGER NOT NULL, `end_minutes` INTEGER NOT NULL, " +
+                        "`room` TEXT NOT NULL, " +
+                        "FOREIGN KEY(`category_id`) REFERENCES `categories`(`id`) " +
+                        "ON UPDATE NO ACTION ON DELETE CASCADE )"
+                )
+                db.execSQL(
+                    "CREATE INDEX IF NOT EXISTS `index_class_sessions_category_id` " +
+                        "ON `class_sessions` (`category_id`)"
+                )
+                db.execSQL(
+                    "CREATE TABLE IF NOT EXISTS `exams` (" +
+                        "`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
+                        "`category_id` INTEGER NOT NULL, `title` TEXT NOT NULL, " +
+                        "`date` INTEGER NOT NULL, `notes` TEXT NOT NULL, " +
+                        "FOREIGN KEY(`category_id`) REFERENCES `categories`(`id`) " +
+                        "ON UPDATE NO ACTION ON DELETE CASCADE )"
+                )
+                db.execSQL(
+                    "CREATE INDEX IF NOT EXISTS `index_exams_category_id` ON `exams` (`category_id`)"
+                )
+                db.execSQL(
+                    "CREATE TABLE IF NOT EXISTS `notes` (" +
+                        "`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
+                        "`category_id` INTEGER NOT NULL, `content` TEXT NOT NULL, " +
+                        "`created_at` INTEGER NOT NULL, `pinned` INTEGER NOT NULL, " +
+                        "FOREIGN KEY(`category_id`) REFERENCES `categories`(`id`) " +
+                        "ON UPDATE NO ACTION ON DELETE CASCADE )"
+                )
+                db.execSQL(
+                    "CREATE INDEX IF NOT EXISTS `index_notes_category_id` ON `notes` (`category_id`)"
+                )
+            }
+        }
+
         /** Garantiza las 4 categorías por defecto de forma idempotente al abrir la base de datos. */
         private object SeedDefaultCategories : RoomDatabase.Callback() {
             override fun onOpen(db: SupportSQLiteDatabase) {
@@ -152,7 +197,7 @@ abstract class AppDatabase : RoomDatabase() {
                     AppDatabase::class.java,
                     DB_NAME
                 )
-                    .addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4)
+                    .addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5)
                     .addCallback(SeedDefaultCategories)
                     .build()
                     .also { INSTANCE = it }

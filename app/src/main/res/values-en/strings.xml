@@ -15,6 +15,8 @@
     <string name="nav_tasks">Tasks</string>
     <string name="nav_focus">Pomodoro</string>
     <string name="nav_calendar">Calendar</string>
+    <string name="nav_agenda">Agenda</string>
+    <string name="nav_subjects">Subjects</string>
     <string name="nav_statistics">Progress</string>
     <string name="dashboard_title">Study Dashboard</string>
     <string name="dashboard_greeting">Welcome back! ✨</string>
@@ -368,4 +370,43 @@
     <string name="agenda_postponed">Postponed to %1$s</string>
     <string name="agenda_completed">Task completed! ✅</string>
     <string name="agenda_no_time">No time</string>
+
+    <!-- Subjects -->
+    <string name="subjects_title">Subjects</string>
+    <string name="subjects_upcoming_exams">📝 Upcoming exams</string>
+    <string name="subjects_no_exams">No exams in sight. Breathe! 😌</string>
+    <string name="subjects_today_classes">🏫 Today\'s classes</string>
+    <string name="subjects_no_classes_today">No classes registered for today</string>
+    <string name="subjects_my_subjects">📚 My subjects</string>
+    <string name="subjects_add">New subject</string>
+    <string name="subjects_meta">%1$d classes · %2$d notes</string>
+    <string name="subject_tab_schedule">Schedule</string>
+    <string name="subject_tab_exams">Exams</string>
+    <string name="subject_tab_notes">Notes</string>
+    <string name="subject_add_item">Add</string>
+    <string name="subject_summary">%1$d classes · %2$d exams · %3$d notes</string>
+    <string name="subject_empty_schedule">Add your weekly classes with the + button</string>
+    <string name="subject_empty_exams">Add your exams to see the countdown</string>
+    <string name="subject_empty_notes">Keep your quick notes here</string>
+    <string name="subject_name_hint">Subject name</string>
+    <string name="subject_name_required">Enter a name</string>
+    <string name="class_add_title">New class</string>
+    <string name="class_room_hint">Room (optional)</string>
+    <string name="class_start">Start %1$s</string>
+    <string name="class_end">End %1$s</string>
+    <string name="class_invalid_time">End time must be after start time</string>
+    <string name="exam_add_title">New exam</string>
+    <string name="exam_title_hint">Exam (e.g. Midterm units 1–4)</string>
+    <string name="exam_notes_hint">Topics or notes (optional)</string>
+    <string name="exam_pick_date">📅 Date</string>
+    <string name="exam_pick_time">🕘 Time</string>
+    <string name="exam_today">Today!</string>
+    <string name="exam_tomorrow">Tomorrow</string>
+    <string name="exam_in_days">%1$d days</string>
+    <string name="exam_past">Past</string>
+    <string name="note_add_title">New note</string>
+    <string name="note_hint">Write your note…</string>
+    <string name="note_pin">Pin / unpin</string>
+    <string name="item_delete_confirm">Delete this item?</string>
+    <string name="item_options">Options</string>
 </resources>

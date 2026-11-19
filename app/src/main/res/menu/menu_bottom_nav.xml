@@ -13,11 +13,11 @@
         android:icon="@drawable/ic_nav_pomodoro"
         android:title="@string/nav_focus" />
     <item
-        android:id="@+id/nav_calendar"
+        android:id="@+id/nav_agenda"
         android:icon="@drawable/ic_nav_calendar"
-        android:title="@string/nav_calendar" />
+        android:title="@string/nav_agenda" />
     <item
-        android:id="@+id/nav_statistics"
-        android:icon="@drawable/ic_nav_stats"
-        android:title="@string/nav_statistics" />
+        android:id="@+id/nav_subjects"
+        android:icon="@drawable/ic_cat_book"
+        android:title="@string/nav_subjects" />
 </menu>
